@@ -1,0 +1,36 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend-4
+    env_file:
+      - .env
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-}
+    container_name: frontend-4
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:16-alpine
+    container_name: db-4
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-skn25}
+      POSTGRES_USER: ${POSTGRES_USER:-skn25}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-this-db-password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
