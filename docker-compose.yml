@@ -1,6 +1,8 @@
 services:
   backend:
     build: ./backend
+    volumes:
+      - ./backend:/app
     container_name: backend-4
     env_file:
       - .env

@@ -63,6 +63,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'api',
+
+    'apps.common',
+    'apps.places',
+    'apps.recommendations',
+    'apps.chat',
+    'apps.plans',
 ]
 
 MIDDLEWARE = [
