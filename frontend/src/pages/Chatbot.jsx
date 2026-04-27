@@ -52,7 +52,7 @@ export default function Chatbot() {
       }));
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/chat`,
+        `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/chat/`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
