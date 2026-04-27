@@ -3,6 +3,11 @@ Django==6.0.4
 django-cors-headers==4.9.0
 djangorestframework==3.17.1
 gunicorn>=23.0,<24
-psycopg[binary]>=3.2,<4
+# psycopg[binary]>=3.2,<4
 python-dotenv==1.2.1
+pandas==3.0.2
 sqlparse==0.5.5
+fastapi==0.135.3
+psycopg2-binary==2.9.11
+langchain==1.2.15
+langchain-openai==1.1.12
