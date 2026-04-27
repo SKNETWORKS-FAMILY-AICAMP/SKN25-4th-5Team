@@ -46,7 +46,7 @@ export default function Search() {
     setLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/search`,
+        `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/recommend/`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -54,7 +54,7 @@ export default function Search() {
             destination,
             purpose,
             transportation,
-            companion: selectedCompanions,
+            companion: selectedCompanions.join(", "),
             duration
           })
         }
