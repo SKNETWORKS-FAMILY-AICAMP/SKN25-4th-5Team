@@ -1,7 +1,7 @@
 .header {
   background: white;
   border-bottom: 1px solid #f0f0f0;
-  padding: 20px 0;
+  padding: 14px 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -21,7 +21,7 @@
 }
 
 .logo-img {
-  width: 240px;
+  width: 210px;
   max-width: 100%;
   height: auto;
   cursor: pointer;
@@ -41,11 +41,11 @@
 .nav-btn {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: #333;
   cursor: pointer;
-  padding: 10px 14px;
+  padding: 8px 12px;
   position: relative;
   transition: all 0.3s ease;
 }
@@ -72,7 +72,7 @@
 
 @media (max-width: 768px) {
   .header {
-    padding: 16px 0;
+    padding: 12px 0;
   }
 
   .header-container {
@@ -82,7 +82,7 @@
   }
 
   .logo-img {
-    width: 200px;
+    width: 180px;
   }
 
   .nav-menu {
