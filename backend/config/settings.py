@@ -22,6 +22,10 @@ ROOT_DIR = BASE_DIR.parent
 
 load_dotenv(ROOT_DIR / '.env')
 
+# LangSmith tracing uses environment variables. Set a default project name so
+# traces are grouped consistently when LANGSMITH_TRACING=true is enabled.
+os.environ.setdefault('LANGSMITH_PROJECT', os.getenv('LANGSMITH_PROJECT', 'skn25-backend'))
+
 
 def env_bool(name, default=False):
     return os.getenv(name, str(default)).lower() in ('1', 'true', 'yes', 'on')
