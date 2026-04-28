@@ -200,7 +200,7 @@
 
 .message-wrapper {
   display: flex;
-  width: 100%; /* 전체 너비 사용 */
+  width: 100%;
   margin-bottom: 16px;
 }
 
@@ -213,15 +213,17 @@
 }
 
 .message {
-  max-width: 70%;
-  padding: 12px 16px;
+  width: 60%;
+  max-width: 60%;
+  padding: 18px 40px;
   border-radius: 12px;
   word-wrap: break-word;
 }
 
 .message-wrapper.user .message {
-  background: linear-gradient(135deg, #ff6a6a, #ff3b3b);
-  color: white;
+  background: linear-gradient(135deg, rgba(255, 59, 59, 0.05));
+  color: rgb(0, 0, 0);
+  text-align: right;
 }
 
 .message-wrapper.assistant .message {

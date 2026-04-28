@@ -115,7 +115,6 @@ export default function Chatbot() {
     setChatId(null);
     setMessages([INITIAL_MESSAGE]);
     setInputValue('');
-    setSidebarOpen(false);
   };
 
   const handleLoadChat = async (selectedChatId) => {
@@ -129,7 +128,6 @@ export default function Chatbot() {
       setChatId(selectedChatId);
       skipNextAutoScrollRef.current = true;
       setMessages(data.length > 0 ? data : [INITIAL_MESSAGE]);
-      setSidebarOpen(false);
     } catch (error) {
       console.error('Load chat error:', error);
     } finally {
