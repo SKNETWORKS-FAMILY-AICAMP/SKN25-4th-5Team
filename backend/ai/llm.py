@@ -74,6 +74,7 @@ def generate_plan_with_rag(req, data):
 
     behavior = data["behavior"]
     places = data["places"]
+    days = req.days  # req에서 일수 받아오기
 
     # 행동 패턴 텍스트
     behavior_text = "\n".join([
@@ -94,6 +95,7 @@ def generate_plan_with_rag(req, data):
 - 출발지: {req.departure}
 - 목적지: {req.destination}
 - 이동 수단: {req.transportation}
+- 여행 기간: {days}일 (반드시 1일차부터 {days}일차까지 작성)
 
 사용자 행동 패턴:
 {behavior_text}
@@ -102,11 +104,12 @@ def generate_plan_with_rag(req, data):
 {place_text}
 
 규칙:
+- 반드시 1일차부터 {days}일차까지 빠짐없이 작성하라
+- 일정 도중에 귀가하거나 출발지로 돌아가는 내용을 포함하지 마라
+- 추천 여행지를 {days}일에 걸쳐 고르게 배분하라
 - JSON 형식으로 출력하지 마라
 - "활동:" 같은 형식 사용하지 마라
-- 키워드를 강조한 간결한 여행 일정 문장으로 작성
-- 사람이 여행 계획 짜듯이 작성
-- 설정한 일자에 맞추어 일정을 생성 및 출력하시오
+- 간결한 여행 일정 문장으로 작성
 
 출력 형식:
 
@@ -119,7 +122,7 @@ def generate_plan_with_rag(req, data):
 2일차
 ...
 
-
+(반드시 {days}일차까지 작성 완료)
 """
 
     res = llm.invoke([HumanMessage(content=prompt)])

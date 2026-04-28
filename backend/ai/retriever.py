@@ -117,7 +117,7 @@ def retrieve_plan(req):
             content_type_nm
         FROM travel_place_vectors
         WHERE sido_nm = %s
-        LIMIT 10
+        LIMIT 50
     """, (req.destination,))
 
     places = cur.fetchall()

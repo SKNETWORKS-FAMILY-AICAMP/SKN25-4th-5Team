@@ -8,10 +8,11 @@ from .serializers import PlanRequestSerializer
 
 
 class SimpleReq:
-    def __init__(self, departure, destination, transportation):
+    def __init__(self, departure, destination, transportation, days):
         self.departure = departure
         self.destination = destination
         self.transportation = transportation
+        self.days = days
 
 
 def parse_plan_text(text, departure, destination, day_count, places):
@@ -22,7 +23,7 @@ def parse_plan_text(text, departure, destination, day_count, places):
         line = line.strip()
         if not line:
             continue
-        if re.match(r'\d+일차', line):
+        if re.search(r'\d+일차', line) and re.search(r':\d{2}', line) is None:
             if current_activities:
                 itinerary.append({"activities": current_activities})
                 current_activities = []
@@ -67,6 +68,7 @@ class PlanView(APIView):
             departure=data["departure"],
             destination=data["destination"],
             transportation=data["transportation"],
+            days=data["day_count"],
         )
         day_count = data["day_count"]
 
