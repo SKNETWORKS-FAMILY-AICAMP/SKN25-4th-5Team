@@ -1,6 +1,7 @@
 import psycopg2
 from ai.llm import get_embedding
 import os
+from functools import lru_cache
 
 # DB
 def get_connection():
@@ -233,23 +234,31 @@ def build_chat_query(message, history=None):
     return " / ".join(merged)
 
 
-# 카테고리 추출
-def extract_category_keywords(message):
-    category_map = {
-        "레포츠": ["레포츠", "액티비티", "스포츠", "체험"],
-        "숙박": ["숙박", "호텔", "리조트", "펜션", "모텔"],
-        "쇼핑": ["쇼핑", "시장", "백화점", "아울렛", "마트"],
-        "문화시설": ["문화", "전시", "박물관", "미술관", "공연"],
-        "축제/공연/행사": ["축제", "공연", "행사", "페스티벌"],
-        "음식점": ["맛집", "음식", "식당", "카페", "먹거리"],
-        "관광지": ["관광지", "명소", "구경", "여행지"],
-    }
+@lru_cache(maxsize=1)
+def get_content_types():
+    conn = get_connection()
+    cur = conn.cursor()
 
-    matched = []
-    for category, keywords in category_map.items():
-        if any(keyword in message for keyword in keywords):
-            matched.append(category)
-    return matched
+    cur.execute("""
+        SELECT DISTINCT content_type_nm
+        FROM travel_place_vectors
+        WHERE content_type_nm IS NOT NULL
+    """)
+    content_types = [row[0] for row in cur.fetchall()]
+
+    cur.close()
+    conn.close()
+
+    return content_types
+
+
+# DB에 적재된 카테고리명 기준으로만 카테고리 추출
+def extract_category_keywords(message):
+    return [
+        content_type
+        for content_type in get_content_types()
+        if content_type and content_type in message
+    ]
 
 
 # 카테고리 가중치
@@ -267,11 +276,7 @@ def rerank_chat_places(places, message):
         if content_type in preferred_categories:
             score += 3
 
-        if "레포츠" in preferred_categories and any(keyword in title for keyword in ["파크", "스키", "서핑", "캠핑", "수상", "체험"]):
-            score += 1
-        if "쇼핑" in preferred_categories and any(keyword in title for keyword in ["시장", "몰", "마트", "백화점", "아울렛"]):
-            score += 1
-        if "숙박" in preferred_categories and any(keyword in title for keyword in ["호텔", "리조트", "펜션", "모텔", "스테이"]):
+        if title and any(category in title for category in preferred_categories):
             score += 1
 
         ranked.append((score, -index, item))
@@ -280,8 +285,50 @@ def rerank_chat_places(places, message):
     return [item for _, _, item in ranked]
 
 
-# 채팅 검색
-def retrieve_chat(message, history=None, limit=5):
+def dedupe_places(places):
+    seen = set()
+    deduped = []
+
+    for place in places:
+        key = (
+            place.get("title"),
+            place.get("sido_nm"),
+            place.get("sgg_nm"),
+            place.get("content_type_nm"),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(place)
+
+    return deduped
+
+
+@lru_cache(maxsize=1)
+def get_regions():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT DISTINCT sido_nm FROM travel_place_vectors")
+    regions = [row[0] for row in cur.fetchall()]
+
+    cur.close()
+    conn.close()
+
+    return regions
+
+
+def detect_region(message):
+    regions = get_regions()
+    for region in regions:
+        if region in message:
+            return region
+    return None
+
+
+
+# 채팅 검색 
+def retrieve_chat(message, history=None, limit=5, region=None):
     resolved_query = build_chat_query(message, history)
     selected_place = extract_selected_place(message, history)
     meta_chat = is_meta_chat(message)
@@ -295,77 +342,56 @@ def retrieve_chat(message, history=None, limit=5):
     if not (meta_chat and selected_place is None):
         query_embedding = get_embedding(resolved_query)
 
-        if selected_place:
-            # 기준 여행지 중심 검색
-            focused_query = (
-                f"{selected_place['title']} {selected_place['sido_nm']} "
-                f"{selected_place['sgg_nm']} {resolved_query}"
-            )
-            focused_embedding = get_embedding(focused_query)
 
-            cur.execute("""
-                SELECT 
-                    title,
-                    sido_nm,
-                    content_type_nm,
-                    sgg_nm,
-                    source,
-                    embedding <-> %s::vector AS distance
-                FROM travel_place_vectors
-                WHERE sido_nm = %s AND sgg_nm = %s
-                ORDER BY embedding <-> %s::vector
-                LIMIT %s
-            """, (
-                focused_embedding,
-                selected_place["sido_nm"],
-                selected_place["sgg_nm"],
-                focused_embedding,
-                max(limit, 5),
-            ))
-            rows = cur.fetchall()
+        # 일반 후보 검색
+        cur.execute("""
+            SELECT 
+                title,
+                sido_nm,
+                content_type_nm,
+                sgg_nm,
+                source,
+                embedding <-> %s::vector AS distance
+            FROM travel_place_vectors
+            WHERE (%s IS NULL OR sido_nm = %s)
+            ORDER BY embedding <-> %s::vector
+            LIMIT %s
+        """, (
+            query_embedding,
+            region,
+            region,
+            query_embedding,
+            max(limit * 4, 20)
+        ))
 
-            places.append(selected_place)
-            for row in rows:
-                item = {
-                    "title": row[0],
-                    "sido_nm": row[1],
-                    "content_type_nm": row[2],
-                    "sgg_nm": row[3],
-                    "source": row[4],
-                }
-                if item["title"] != selected_place["title"]:
-                    places.append(item)
-                if len(places) >= limit:
-                    break
-        else:
-            # 일반 후보 검색
-            cur.execute("""
-                SELECT 
-                    title,
-                    sido_nm,
-                    content_type_nm,
-                    sgg_nm,
-                    source,
-                    embedding <-> %s::vector AS distance
-                FROM travel_place_vectors
-                ORDER BY embedding <-> %s::vector
-                LIMIT %s
-            """, (query_embedding, query_embedding, max(limit * 4, 20)))
+        rows = cur.fetchall()
 
-            rows = cur.fetchall()
-            places = [
-                {
-                    "title": row[0],
-                    "sido_nm": row[1],
-                    "content_type_nm": row[2],
-                    "sgg_nm": row[3],
-                    "source": row[4],
-                }
-                for row in rows[:limit]
-            ]
+        places = [
+            {
+                "title": row[0],
+                "sido_nm": row[1],
+                "content_type_nm": row[2],
+                "sgg_nm": row[3],
+                "source": row[4],
+            }
+            for row in rows
+        ]
+        places = dedupe_places(places)
+
+        places = [
+            p for p in places
+            if not selected_place or p["title"] != selected_place.get("title")
+        ]
+
+        # rerank 
 
         places = rerank_chat_places(places, message)
 
+     
+        # 마지막에 limit
+        places = places[:limit]
+
+        # 행동 데이터
         cur.execute("""
             SELECT 
                 trip_visit_sido,
@@ -378,6 +404,7 @@ def retrieve_chat(message, history=None, limit=5):
         """, (query_embedding,))
 
         behavior = cur.fetchall()
+
         behavior_text = "\n".join([
             f"{row[0]} {row[1]}에서 {row[2]} 활동, 동행자: {row[3]}"
             for row in behavior

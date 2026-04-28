@@ -1,4 +1,4 @@
-from ai.retriever import retrieve_category, retrieve_chat, retrieve_plan
+from ai.retriever import retrieve_category, retrieve_chat, retrieve_plan, get_regions
 from ai.llm import (
     generate_category_response,
     parse_category_json,
@@ -43,7 +43,14 @@ def category_rag(req):
 
 # 채팅 RAG
 def chat_rag(message, history=None, limit=5):
-    result = retrieve_chat(message=message, history=history, limit=limit)
+    region = detect_region(message)
+
+    result = retrieve_chat(
+        message=message,
+        history=history,
+        limit=limit,
+        region=region
+    )
 
     places = result["places"]
     behavior_text = result["behavior_text"]
@@ -57,12 +64,65 @@ def chat_rag(message, history=None, limit=5):
         meta_chat=result["meta_chat"],
     )
 
+    places = select_answer_places(answer, places, max_items=limit)
+
     return {
         "answer": answer,
         "places": places,
         "show_places": result["show_places"],
         "resolved_query": result["resolved_query"],
     }
+
+def select_answer_places(answer, places, max_items=5):
+    ordered = reorder_places(answer, dedupe_places(places))
+    mentioned = [place for place in ordered if place["title"] in answer]
+
+    if mentioned:
+        return mentioned[:max_items]
+
+    if "조건에 맞는 여행지가 없습니다" in answer:
+        return []
+
+    return ordered[:min(3, max_items)]
+
+
+def dedupe_places(places):
+    seen = set()
+    deduped = []
+
+    for place in places:
+        key = (
+            place.get("title"),
+            place.get("sido_nm"),
+            place.get("sgg_nm"),
+            place.get("content_type_nm"),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(place)
+
+    return deduped
+
+
+def reorder_places(answer, places):
+    mentioned = []
+    not_mentioned = []
+
+    for p in places:
+        if p["title"] in answer:
+            mentioned.append((answer.find(p["title"]), p))
+        else:
+            not_mentioned.append(p)
+
+    # LLM 언급 순서대로 정렬
+    mentioned.sort(key=lambda x: x[0])
+
+    # 언급된 것 + 나머지 순서 유지
+    ordered = [p for _, p in mentioned] + not_mentioned
+
+    return ordered
+
 
 def plan_rag(req):
 
@@ -71,3 +131,11 @@ def plan_rag(req):
     result = generate_plan_with_rag(req, data)
 
     return result
+
+# 지역 감지(챗봇)
+def detect_region(message):
+    regions = get_regions()
+    for r in regions:
+        if r in message:
+            return r
+    return None
