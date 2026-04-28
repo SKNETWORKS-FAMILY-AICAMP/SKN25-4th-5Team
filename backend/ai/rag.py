@@ -5,8 +5,10 @@ from ai.llm import (
     generate_chat_response,
     generate_plan_with_rag
 )
+from langsmith import traceable
 
 # 카테고리 여행지 추천
+@traceable(name="category_rag", run_type="chain")
 def category_rag(req):
     # 후보 여행지 + 행동 패턴
     result = retrieve_category(req)
@@ -42,6 +44,7 @@ def category_rag(req):
 
 
 # 채팅 RAG
+@traceable(name="chat_rag", run_type="chain")
 def chat_rag(message, history=None, limit=5):
     region = detect_region(message)
 
@@ -74,6 +77,7 @@ def chat_rag(message, history=None, limit=5):
     }
 
 
+@traceable(name="select_answer_places", run_type="tool")
 def select_answer_places(answer, places, max_items=5):
     ordered = reorder_places(answer, dedupe_places(places))
     mentioned = [place for place in ordered if place["title"] in answer]
@@ -87,6 +91,7 @@ def select_answer_places(answer, places, max_items=5):
     return ordered[:min(3, max_items)]
 
 
+@traceable(name="dedupe_places", run_type="tool")
 def dedupe_places(places):
     seen = set()
     deduped = []
@@ -106,6 +111,7 @@ def dedupe_places(places):
     return deduped
 
 
+@traceable(name="reorder_places", run_type="tool")
 def reorder_places(answer, places):
     mentioned = []
     not_mentioned = []
@@ -122,6 +128,7 @@ def reorder_places(answer, places):
     return ordered
 
 
+@traceable(name="plan_rag", run_type="chain")
 def plan_rag(req):
 
     data = retrieve_plan(req)

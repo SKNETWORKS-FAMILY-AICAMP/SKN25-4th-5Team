@@ -11,3 +11,6 @@ fastapi==0.135.3
 psycopg2-binary==2.9.11
 langchain==1.2.15
 langchain-openai==1.1.12
+langsmith>=0.4,<0.5
+pytest==8.4.2
+pytest-django==4.11.1

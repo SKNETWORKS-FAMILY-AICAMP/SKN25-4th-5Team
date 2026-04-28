@@ -1,0 +1,141 @@
+[
+  {
+    "inputs": {
+      "question": "서울에서 친구랑 갈 만한 조용한 여행지 추천해줘",
+      "history": [],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["서울", "친구", "조용"],
+      "forbidden_keywords": ["해외", "비행기"]
+    },
+    "metadata": {
+      "category": "chat_recommendation",
+      "difficulty": "easy"
+    }
+  },
+  {
+    "inputs": {
+      "question": "부모님과 함께 가기 좋은 역사 유적지 위주로 추천해줘",
+      "history": [],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["부모", "역사", "유적"],
+      "forbidden_keywords": ["클럽", "파티"]
+    },
+    "metadata": {
+      "category": "chat_recommendation",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "inputs": {
+      "question": "제주도에서 자연 풍경 감상하기 좋은 곳 알려줘",
+      "history": [],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["제주", "자연", "풍경"],
+      "forbidden_keywords": ["카지노"]
+    },
+    "metadata": {
+      "category": "chat_recommendation",
+      "difficulty": "easy"
+    }
+  },
+  {
+    "inputs": {
+      "question": "비 오는 날에도 갈 수 있는 실내 위주 장소 추천해줘",
+      "history": [],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["실내", "추천"],
+      "forbidden_keywords": ["등산", "해수욕"]
+    },
+    "metadata": {
+      "category": "chat_recommendation",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "inputs": {
+      "question": "연인과 사진 찍기 좋은 감성적인 장소 추천해줘",
+      "history": [],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["연인", "사진", "감성"],
+      "forbidden_keywords": ["출장"]
+    },
+    "metadata": {
+      "category": "chat_recommendation",
+      "difficulty": "easy"
+    }
+  },
+  {
+    "inputs": {
+      "question": "방금 추천한 곳 중 첫 번째 장소 주변 코스도 알려줘",
+      "history": [
+        {
+          "role": "assistant",
+          "content": "서울숲, 북촌한옥마을, 경복궁을 추천할게요.",
+          "places": [
+            {"title": "서울숲", "sido_nm": "서울특별시", "sgg_nm": "성동구", "content_type_nm": "관광지"},
+            {"title": "북촌한옥마을", "sido_nm": "서울특별시", "sgg_nm": "종로구", "content_type_nm": "관광지"},
+            {"title": "경복궁", "sido_nm": "서울특별시", "sgg_nm": "종로구", "content_type_nm": "관광지"}
+          ]
+        }
+      ],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["서울숲", "주변", "코스"],
+      "forbidden_keywords": ["없음"]
+    },
+    "metadata": {
+      "category": "chat_followup",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "inputs": {
+      "question": "내가 아까 뭐 물어봤는지 기억해?",
+      "history": [
+        {
+          "role": "user",
+          "content": "서울에서 친구랑 갈 만한 조용한 여행지 추천해줘"
+        },
+        {
+          "role": "assistant",
+          "content": "서울숲, 북촌한옥마을, 경복궁을 추천할게요."
+        }
+      ],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["서울", "친구", "조용"],
+      "forbidden_keywords": []
+    },
+    "metadata": {
+      "category": "meta_chat",
+      "difficulty": "medium"
+    }
+  },
+  {
+    "inputs": {
+      "question": "조건에 맞는 여행지가 없으면 없다고 솔직하게 말해줘",
+      "history": [],
+      "limit": 3
+    },
+    "outputs": {
+      "expected_keywords": ["없", "조건"],
+      "forbidden_keywords": ["지어낸 장소"]
+    },
+    "metadata": {
+      "category": "hallucination_guard",
+      "difficulty": "hard"
+    }
+  }
+]

@@ -1,5 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
+from langsmith import traceable
+from langsmith.wrappers import wrap_openai
 import os
 import json
 import re
@@ -12,10 +14,15 @@ llm = ChatOpenAI(
     openai_api_key=os.getenv("OPENAI_API_KEY")
 )
 
+
+def get_chat_prompt_variant():
+    return os.getenv("CHAT_PROMPT_VARIANT", "v1").strip().lower()
+
 # 임베딩 함수 
+@traceable(name="get_embedding", run_type="embedding")
 def get_embedding(text):
     from openai import OpenAI
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    client = wrap_openai(OpenAI(api_key=os.getenv("OPENAI_API_KEY")))
 
     res = client.embeddings.create(
         model="text-embedding-3-small",
@@ -25,6 +32,7 @@ def get_embedding(text):
 
 
 # category 여행지 추천 
+@traceable(name="generate_category_response", run_type="llm")
 def generate_category_response(req, docs, behavior_text):
 
     context = "\n".join([
@@ -70,6 +78,7 @@ def generate_category_response(req, docs, behavior_text):
 
 
 
+@traceable(name="generate_plan_with_rag", run_type="llm")
 def generate_plan_with_rag(req, data):
 
     behavior = data["behavior"]
@@ -150,6 +159,7 @@ def parse_category_json(text):
 
 
 # 채팅 응답 생성
+@traceable(name="generate_chat_response", run_type="llm")
 def generate_chat_response(message, docs, behavior_text="", history=None, selected_place=None, meta_chat=False):
     history = history or []
     history_text = "\n".join([
@@ -188,6 +198,29 @@ def generate_chat_response(message, docs, behavior_text="", history=None, select
     - 검색 결과에 없는 정보는 지어내지 마.
     - 말투는 친근하고 자연스럽게.
     """
+
+    prompt_variant = get_chat_prompt_variant()
+
+    if prompt_variant == "v2":
+        prompt += """
+
+    추가 규칙:
+    - 사용자의 동행자, 분위기, 활동 목적 같은 조건을 먼저 반영해 답해.
+    - 후보 여행지가 있으면 답변 첫 문장에서 질문 의도에 맞는 추천 방향을 짧게 요약해.
+    - 후보 여행지 이름은 1~3개까지만 자연스럽게 언급해.
+    - 근거가 약하거나 후보가 부족하면 모른다고 솔직히 말하고, 가능한 범위에서만 안내해.
+    - 여행지 이름만 나열하지 말고 왜 어울리는지 한 문장씩 짧게 붙여.
+    - 답변은 너무 길지 않게 3~5문장 안에서 마무리해.
+        """
+    elif prompt_variant == "v3":
+        prompt += """
+
+    추가 규칙:
+    - 사용자의 질문을 먼저 한 문장으로 재해석한 뒤 답변을 시작해.
+    - 검색된 후보 안에서만 추천하고, 후보 밖 정보는 절대 추측하지 마.
+    - 추천이 어렵다면 부족한 조건이 무엇인지 짧게 설명해.
+    - 답변 마지막 문장에는 다음 질문 예시를 한 개만 제안해.
+        """
 
     if meta_chat:
         prompt += "\n- 이번 답변은 여행지 리스트를 억지로 만들지 말고 1~3문장으로 자연스럽게 답해."
