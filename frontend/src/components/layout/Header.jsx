@@ -22,7 +22,7 @@ export default function Header() {
             className="nav-btn"
             onClick={() => navigate('/search')}
           >
-            여행 찾기
+            맞춤형 여행지 추천
           </button>
           <button 
             className="nav-btn"
@@ -34,7 +34,7 @@ export default function Header() {
             className="nav-btn"
             onClick={() => navigate('/schedule')}
           >
-            일정 만들기
+            여행 플래너
           </button>
           <button 
             className="nav-btn"
