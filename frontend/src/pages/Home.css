@@ -72,7 +72,8 @@
 }
 
 .card {
-  background: white;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px);
   padding: 40px 20px;
   margin-top: 60px;
   text-align: center;
