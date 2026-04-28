@@ -8,11 +8,13 @@ from .serializers import PlanRequestSerializer
 
 
 class SimpleReq:
-    def __init__(self, departure, destination, transportation, days):
+    def __init__(self, departure, destination, transportation, days, departure_hour=9, travel_type=""):
         self.departure = departure
         self.destination = destination
         self.transportation = transportation
         self.days = days
+        self.departure_hour = departure_hour
+        self.travel_type = travel_type
 
 
 def parse_plan_text(text, departure, destination, day_count, places):
@@ -69,6 +71,8 @@ class PlanView(APIView):
             destination=data["destination"],
             transportation=data["transportation"],
             days=data["day_count"],
+            departure_hour=data.get("departure_hour", 9),
+            travel_type=data.get("travel_type", ""),
         )
         day_count = data["day_count"]
 

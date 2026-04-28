@@ -88,6 +88,8 @@ def generate_plan_with_rag(req, data):
         for p in places
     ])
 
+    departure_hour = getattr(req, 'departure_hour', 9)
+
     prompt = f"""
 너는 여행 일정 플래너다.
 
@@ -95,7 +97,9 @@ def generate_plan_with_rag(req, data):
 - 출발지: {req.departure}
 - 목적지: {req.destination}
 - 이동 수단: {req.transportation}
+- 여행 유형: {req.travel_type}
 - 여행 기간: {days}일 (반드시 1일차부터 {days}일차까지 작성)
+- 매일 출발 시간: {departure_hour}시
 
 사용자 행동 패턴:
 {behavior_text}
@@ -105,6 +109,9 @@ def generate_plan_with_rag(req, data):
 
 규칙:
 - 반드시 1일차부터 {days}일차까지 빠짐없이 작성하라
+- 1일차 첫 일정은 반드시 {departure_hour}:00 부터 시작하라
+- 2일차부터는 09:00 ~ 21:00 사이에서 자연스럽게 시간을 배분하라
+- 각 활동 간 시간 간격은 1~3시간으로 자연스럽게 배분하라
 - 일정 도중에 귀가하거나 출발지로 돌아가는 내용을 포함하지 마라
 - 추천 여행지를 {days}일에 걸쳐 고르게 배분하라
 - JSON 형식으로 출력하지 마라
@@ -114,13 +121,16 @@ def generate_plan_with_rag(req, data):
 출력 형식:
 
 1일차
-09:00 관덕정에서 산책하며 여행 시작
+{departure_hour}:00 관덕정에서 산책하며 여행 시작
 12:30 메타포에서 점심 식사
 15:00 부용정에서 여유로운 휴식
 18:00 사직단에서 저녁 산책
 
 2일차
-...
+09:00 ...
+12:00 ...
+15:00 ...
+18:00 ...
 
 (반드시 {days}일차까지 작성 완료)
 """
