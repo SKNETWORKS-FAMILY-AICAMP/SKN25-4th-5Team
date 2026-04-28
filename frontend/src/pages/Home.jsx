@@ -47,7 +47,7 @@ export default function Home() {
         </div>
 
         <div className="card">
-          <h2>1000+</h2>
+          <h2>10000+</h2>
           <p>다양한 여행지 데이터</p>
         </div>
       </section>
