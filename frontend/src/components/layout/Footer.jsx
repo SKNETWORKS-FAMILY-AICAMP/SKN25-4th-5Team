@@ -12,9 +12,9 @@ export default function Footer() {
           
           <nav className="footer-links" aria-label="푸터 메뉴">
             <a href="/">홈</a>
-            <a href="/search">여행 찾기</a>
-            <a href="/chat">챗봇</a>
-            <a href="/schedule">일정 만들기</a>
+            <a href="/search">맞춤형 여행지 추천</a>
+            <a href="/chat">여행 챗봇</a>
+            <a href="/schedule">여행 플래너</a>
           </nav>
         </div>
 
