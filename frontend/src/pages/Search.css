@@ -14,21 +14,21 @@
 }
 
 /* 제목 아래 설명 문구 */
-.subtitle {
+.search-container .subtitle {
   color: #666;
   font-size: 16px;
   margin: 0 0 30px 0;
 }
 
 /* 제목과 필터 박스를 나누는 선 */
-.divider {
+.search-container .divider {
   border: none;
   border-top: 1px solid #e0e0e0;
   margin: 30px 0;
 }
 
 /* 검색 조건 전체 박스 */
-.filters-section {
+.search-container .filters-section {
   background: #fafafa;
   padding: 40px;
   border-radius: 12px;
@@ -36,7 +36,7 @@
 }
 
 /* 2열 배치용 그리드 */
-.filter-grid-2 {
+.search-container .filter-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
@@ -44,13 +44,13 @@
 }
 
 /* 각 입력 블록을 세로로 쌓음 */
-.filter-group {
+.search-container .filter-group {
   display: flex;
   flex-direction: column;
 }
 
 /* 목적지 선택, 여행 목적 같은 항목 제목 */
-.filter-group > label {
+.search-container .filter-group > label {
   font-weight: 600;
   font-size: 20px;
   margin-bottom: 8px;
@@ -58,7 +58,7 @@
 }
 
 /* 기본 select 3개 공통 스타일 */
-.select-input {
+.search-container .select-input {
   width: 100%;
   height: 32px;
   padding: 0 12px;
@@ -70,8 +70,8 @@
   transition: border-color 0.3s ease;
 }
 
-.select-input:hover,
-.select-input:focus {
+.search-container .select-input:hover,
+.search-container .select-input:focus {
   outline: none;
   border-color: #ff3b3b;
 }
@@ -167,7 +167,7 @@
 }
 
 /* 동행자 미선택 시 표시되는 에러 문구 */
-.field-error {
+.search-container .field-error {
   margin-top: 8px;
   color: #e53935;
   font-size: 14px;
@@ -175,7 +175,7 @@
 }
 
 /* 검색 버튼을 가운데 정렬하는 줄 */
-.slider-input {
+.search-container .slider-input {
   width: 100%;
   height: 6px;
   border-radius: 3px;
@@ -184,7 +184,7 @@
   -webkit-appearance: none;
 }
 
-.slider-input::-webkit-slider-thumb {
+.search-container .slider-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
@@ -195,7 +195,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.slider-input::-moz-range-thumb {
+.search-container .slider-input::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -206,14 +206,14 @@
 }
 
 /* 가운데 정렬된 검색 버튼 영역 */
-.button-row {
+.search-container .button-row {
   display: flex;
   justify-content: center;
   margin-top: 28px;
 }
 
 /* 실제 검색 버튼 */
-.search-btn {
+.search-container .search-btn {
   width: min(100%, 760px);
   min-height: 56px;
   padding: 14px 24px;
@@ -227,34 +227,34 @@
   transition: all 0.3s ease;
 }
 
-.search-btn:hover:not(:disabled) {
+.search-container .search-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 59, 59, 0.3);
 }
 
-.search-btn:disabled {
+.search-container .search-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 /* 검색 결과 전체 영역 */
-.results-section {
+.search-container .results-section {
   margin-top: 40px;
 }
 
-.results-section h2 {
+.search-container .results-section h2 {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.results-grid {
+.search-container .results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
 
-.result-card {
+.search-container .result-card {
   background: white;
   padding: 20px;
   border-radius: 12px;
@@ -262,38 +262,38 @@
   transition: all 0.3s ease;
 }
 
-.result-card:hover {
+.search-container .result-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.result-card h3 {
+.search-container .result-card h3 {
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 8px 0;
   color: #333;
 }
 
-.result-card .location {
+.search-container .result-card .location {
   font-size: 13px;
   color: #ff3b3b;
   margin: 4px 0;
 }
 
-.result-card .content-type {
+.search-container .result-card .content-type {
   font-size: 12px;
   color: #999;
   margin: 4px 0;
 }
 
-.result-card .description {
+.search-container .result-card .description {
   font-size: 13px;
   color: #666;
   line-height: 1.4;
   margin: 8px 0 0 0;
 }
 
-.empty-state {
+.search-container .empty-state {
   text-align: center;
   padding: 60px 20px;
   color: #999;
@@ -310,11 +310,11 @@
     font-size: 28px;
   }
 
-  .filters-section {
+  .search-container .filters-section {
     padding: 20px;
   }
 
-  .filter-grid-2 {
+  .search-container .filter-grid-2 {
     grid-template-columns: 1fr;
   }
 
@@ -324,12 +324,12 @@
   }
 
   /* 모바일에서는 버튼 위 여백을 줄임 */
-  .button-row {
+  .search-container .button-row {
     margin-top: 20px;
   }
 
   /* 모바일에서는 버튼을 가로 전체 사용 */
-  .search-btn {
+  .search-container .search-btn {
     width: 100%;
     font-size: 16px;
   }
