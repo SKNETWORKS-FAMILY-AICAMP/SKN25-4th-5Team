@@ -8,7 +8,7 @@ const INITIAL_MESSAGE = {
   role: 'assistant',
   content: `안녕하세요 😊
 
-**맞춤 여행 추천 챗봇**이에요!
+맞춤 여행 추천 챗봇이에요!
 우리 DB의 실제 관광 데이터를 바탕으로 답변해 드립니다.
 
 어떤 여행을 계획하고 계신가요?
@@ -20,6 +20,29 @@ const INITIAL_MESSAGE = {
 
 조건을 알려주시면 딱 맞게 추천해드릴게요 ✈️`
 };
+
+function MessageAvatar({ role }) {
+  const isUser = role === 'user';
+
+  return (
+    <div className="message-avatar" aria-hidden="true">
+      {isUser ? (
+        <svg viewBox="0 0 24 24" role="img">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4.5 20c1.1-4.2 4-6.2 7.5-6.2s6.4 2 7.5 6.2" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" role="img">
+          <rect x="5" y="7" width="14" height="11" rx="4" />
+          <path d="M12 7V4" />
+          <circle cx="9.5" cy="12.5" r="1" />
+          <circle cx="14.5" cy="12.5" r="1" />
+          <path d="M9 16h6" />
+        </svg>
+      )}
+    </div>
+  );
+}
 
 export default function Chatbot() {
   // 상태
@@ -297,6 +320,7 @@ export default function Chatbot() {
             <div className="messages">
               {messages.map((message, idx) => (
                 <div key={idx} className={`message-wrapper ${message.role}`}>
+                  <MessageAvatar role={message.role} />
                   <div className="message">
                     <div className="message-content">
                       {/* 문장 */}
@@ -330,6 +354,7 @@ export default function Chatbot() {
               {loading && (
                 /* 로딩 */
                 <div className="message-wrapper assistant">
+                  <MessageAvatar role="assistant" />
                   <div className="message loading">
                     <div className="typing-indicator">
                       <span></span>

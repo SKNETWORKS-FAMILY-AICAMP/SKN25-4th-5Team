@@ -251,6 +251,8 @@
 
 .message-wrapper {
   display: flex;
+  align-items: flex-start;
+  gap: 10px;
   width: 100%;
   margin-bottom: 16px;
 }
@@ -261,6 +263,43 @@
 
 .message-wrapper.assistant {
   justify-content: flex-start;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  color: #777;
+}
+
+.message-avatar svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.message-wrapper.assistant .message-avatar {
+  background: #fff3f3;
+  border-color: #ffd1d1;
+  color: #ff3b3b;
+}
+
+.message-wrapper.user .message-avatar {
+  order: 2;
+  background: #f7f7f7;
+  border-color: #e1e1e1;
+  color: #555;
 }
 
 .message {
@@ -498,6 +537,17 @@
 
   .message {
     max-width: 86%;
+  }
+
+  .message-avatar {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+  }
+
+  .message-avatar svg {
+    width: 16px;
+    height: 16px;
   }
 
   .send-btn {

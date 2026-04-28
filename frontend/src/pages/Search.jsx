@@ -25,6 +25,12 @@ const companions = [
   "학교 단체", "친목 단체/모임", "반려동물", "기타"
 ];
 
+// 카카오맵 검색 URL 생성 함수
+const getKakaoMapSearchUrl = (place) => {
+  const keyword = place.title || place.location || '';
+  return `https://map.kakao.com/link/search/${encodeURIComponent(keyword)}`;
+};
+
 export default function Search() {
   const [destination, setDestination] = useState(destinations[0]);
   const [purpose, setPurpose] = useState(purposes[0]);
@@ -207,12 +213,19 @@ export default function Search() {
           <h2>검색 결과</h2>
           <div className="results-grid">
             {results.map((place, idx) => (
-              <div key={idx} className="result-card">
+              <a
+                key={idx}
+                className="result-card"
+                href={getKakaoMapSearchUrl(place)}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${place.title} 카카오맵에서 보기`}
+              >
                 <h3>{place.title}</h3>
                 <p className="location">{place.location}</p>
                 <p className="content-type">{place.content_type}</p>
                 <p className="description">{place.description}</p>
-              </div>
+              </a>
             ))}
           </div>
         </div>

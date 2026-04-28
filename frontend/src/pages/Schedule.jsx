@@ -143,12 +143,11 @@ export default function Schedule() {
               onChange={(e) => setDepartureHour(Number(e.target.value))}
               className="slider-input"
               style={{
-                background: `linear-gradient(to right, #ff3b3b 0%, #ff3b3b ${(departureHour / 24) * 100}%, #ddd ${(departureHour / 24) * 100}%, #ddd 100%)`
+                '--slider-progress': `${(departureHour / 24) * 100}%`
               }}
             />
           </div>
 
-          {/* 2. 여행 기간 슬라이더 */}
           <div className="form-group">
             <label>여행 기간: {dayCount}일</label>
             <input 
@@ -159,12 +158,7 @@ export default function Schedule() {
               onChange={(e) => setDayCount(Number(e.target.value))}
               className="slider-input"
               style={{
-                /* 핵심 수정: (현재값 - 최솟값) / (최대값 - 최솟값) */
-                background: `linear-gradient(to right, 
-                  #ff3b3b 0%, 
-                  #ff3b3b ${((dayCount - 1) / (14 - 1)) * 100}%, 
-                  #ddd ${((dayCount - 1) / (14 - 1)) * 100}%, 
-                  #ddd 100%)`
+                '--slider-progress': `${((dayCount - 1) / (14 - 1)) * 100}%`
               }}
             />
           </div>
