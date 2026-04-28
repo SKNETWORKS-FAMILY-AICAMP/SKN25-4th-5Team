@@ -108,7 +108,11 @@ def retrieve_plan(req):
 
     behavior = cur.fetchall()
 
-    # 여행지 후보
+    # 여행지 후보 (여행 유형 + 목적지 기반 벡터 유사도 검색)
+    travel_type = getattr(req, 'travel_type', '')
+    query_text = f"{req.destination} {travel_type} 여행"
+    query_embedding = get_embedding(query_text)
+
     cur.execute("""
         SELECT
             title,
@@ -117,8 +121,9 @@ def retrieve_plan(req):
             content_type_nm
         FROM travel_place_vectors
         WHERE sido_nm = %s
+        ORDER BY embedding <-> %s::vector
         LIMIT 50
-    """, (req.destination,))
+    """, (req.destination, query_embedding))
 
     places = cur.fetchall()
 
