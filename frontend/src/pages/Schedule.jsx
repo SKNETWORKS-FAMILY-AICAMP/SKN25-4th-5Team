@@ -138,13 +138,17 @@ export default function Schedule() {
             <input 
               type="range"
               min="0"
-              max="23"
+              max="24"
               value={departureHour}
               onChange={(e) => setDepartureHour(Number(e.target.value))}
               className="slider-input"
+              style={{
+                background: `linear-gradient(to right, #ff3b3b 0%, #ff3b3b ${(departureHour / 24) * 100}%, #ddd ${(departureHour / 24) * 100}%, #ddd 100%)`
+              }}
             />
           </div>
 
+          {/* 2. 여행 기간 슬라이더 */}
           <div className="form-group">
             <label>여행 기간: {dayCount}일</label>
             <input 
@@ -154,6 +158,14 @@ export default function Schedule() {
               value={dayCount}
               onChange={(e) => setDayCount(Number(e.target.value))}
               className="slider-input"
+              style={{
+                /* 핵심 수정: (현재값 - 최솟값) / (최대값 - 최솟값) */
+                background: `linear-gradient(to right, 
+                  #ff3b3b 0%, 
+                  #ff3b3b ${((dayCount - 1) / (14 - 1)) * 100}%, 
+                  #ddd ${((dayCount - 1) / (14 - 1)) * 100}%, 
+                  #ddd 100%)`
+              }}
             />
           </div>
         </div>
@@ -172,7 +184,7 @@ export default function Schedule() {
       {/* Result */}
       {result && (
         <div className="result-container">
-          <h2>생성된 여행 일정</h2>
+          <h2>Tripick 추천 일정</h2>
           
           <div className="trip-info">
             <div className="info-item">
@@ -186,10 +198,6 @@ export default function Schedule() {
             <div className="info-item">
               <span className="label">여행 기간</span>
               <span className="value">{result.day_count}일</span>
-            </div>
-            <div className="info-item">
-              <span className="label">예상 이동 시간</span>
-              <span className="value">{result.estimated_time || '-'}</span>
             </div>
           </div>
 
