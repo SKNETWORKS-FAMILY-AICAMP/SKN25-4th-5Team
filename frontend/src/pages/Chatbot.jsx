@@ -22,6 +22,7 @@ const INITIAL_MESSAGE = {
 };
 
 export default function Chatbot() {
+  // 상태
   const [chatId, setChatId] = useState(null);
   const [chatList, setChatList] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -33,6 +34,7 @@ export default function Chatbot() {
   const scrollFrameRef = useRef(null);
   const skipNextAutoScrollRef = useRef(false);
 
+  // 스크롤
   const scrollToBottom = useCallback((behavior = 'smooth') => {
     if (scrollFrameRef.current) {
       cancelAnimationFrame(scrollFrameRef.current);
@@ -68,6 +70,7 @@ export default function Chatbot() {
     };
   }, []);
 
+  // 목록
   const fetchChatList = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/chat/list/`);
@@ -83,6 +86,7 @@ export default function Chatbot() {
     fetchChatList();
   }, [fetchChatList]);
 
+  // 생성
   const createChat = async (message) => {
     const response = await fetch(`${API_BASE_URL}/api/chat/create/`, {
       method: 'POST',
@@ -97,6 +101,7 @@ export default function Chatbot() {
     return data.chat_id;
   };
 
+  // 저장
   const saveMessage = async (targetChatId, message) => {
     const response = await fetch(`${API_BASE_URL}/api/chat/save/`, {
       method: 'POST',
@@ -112,12 +117,14 @@ export default function Chatbot() {
     if (!response.ok) throw new Error('Failed to save message');
   };
 
+  // 새 대화
   const handleNewChat = () => {
     setChatId(null);
     setMessages([INITIAL_MESSAGE]);
     setInputValue('');
   };
 
+  // 불러오기
   const handleLoadChat = async (selectedChatId) => {
     setHistoryLoading(true);
 
@@ -136,6 +143,30 @@ export default function Chatbot() {
     }
   };
 
+  // 삭제
+  const handleDeleteChat = async (targetChatId) => {
+    setHistoryLoading(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/chat/${targetChatId}/`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) throw new Error('Failed to delete chat');
+
+      setChatList(prev => prev.filter(chat => chat.id !== targetChatId));
+
+      if (chatId === targetChatId) {
+        handleNewChat();
+      }
+    } catch (error) {
+      console.error('Delete chat error:', error);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  // 전송
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
@@ -151,7 +182,7 @@ export default function Chatbot() {
       const activeChatId = chatId || await createChat(currentInput);
       await saveMessage(activeChatId, userMessage);
 
-      // Prepare history (last 6 messages excluding the new one)
+      // 기록
       const history = messages.slice(-6).map(msg => ({
         role: msg.role,
         content: msg.content,
@@ -205,6 +236,7 @@ export default function Chatbot() {
       </div>
 
       <div className="chatbot-layout">
+        {/* 토글 */}
         <button
           type="button"
           className="history-toggle"
@@ -216,6 +248,7 @@ export default function Chatbot() {
           <span></span>
         </button>
 
+        {/* 기록 */}
         <aside className={`chat-history ${sidebarOpen ? 'open' : ''}`}>
           <div className="history-header">
             <h2>대화 기록</h2>
@@ -230,27 +263,43 @@ export default function Chatbot() {
             )}
 
             {chatList.map(chat => (
-              <button
-                type="button"
+              <div
                 key={chat.id}
                 className={`history-item ${chatId === chat.id ? 'active' : ''}`}
-                onClick={() => handleLoadChat(chat.id)}
-                disabled={historyLoading}
               >
-                <span>{chat.title || '새 대화'}</span>
-              </button>
+                <button
+                  type="button"
+                  className="history-title-btn"
+                  onClick={() => handleLoadChat(chat.id)}
+                  disabled={historyLoading}
+                >
+                  <span>{chat.title || '새 대화'}</span>
+                </button>
+                {/* 삭제 */}
+                <button
+                  type="button"
+                  className="history-delete-btn"
+                  onClick={() => handleDeleteChat(chat.id)}
+                  disabled={historyLoading}
+                  aria-label={`${chat.title || '새 대화'} 삭제`}
+                  title="삭제"
+                >
+                  x
+                </button>
+              </div>
             ))}
           </div>
         </aside>
 
         <div className="chat-main">
+          {/* 메시지 */}
           <div className="chat-window" ref={chatWindowRef}>
             <div className="messages">
               {messages.map((message, idx) => (
                 <div key={idx} className={`message-wrapper ${message.role}`}>
                   <div className="message">
                     <div className="message-content">
-                      {/* Simple markdown-like parsing */}
+                      {/* 문장 */}
                       {message.content.split('\n').map((line, i) => {
                         if (line.startsWith('**') && line.endsWith('**')) {
                           return <strong key={i}>{line.replace(/\*\*/g, '')}</strong>;
@@ -262,6 +311,7 @@ export default function Chatbot() {
                       })}
                     </div>
 
+                    {/* 장소 */}
                     {message.places && message.places.length > 0 && (
                       <div className="places-list">
                         <h4>추천 장소:</h4>
@@ -278,6 +328,7 @@ export default function Chatbot() {
               ))}
 
               {loading && (
+                /* 로딩 */
                 <div className="message-wrapper assistant">
                   <div className="message loading">
                     <div className="typing-indicator">
@@ -293,6 +344,7 @@ export default function Chatbot() {
             </div>
           </div>
 
+          {/* 입력 */}
           <form className="chat-input-form" onSubmit={handleSendMessage}>
             <input
               type="text"
