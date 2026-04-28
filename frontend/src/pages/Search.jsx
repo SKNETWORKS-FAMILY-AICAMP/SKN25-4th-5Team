@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Search.css';
 
 const destinations = [
@@ -30,19 +30,57 @@ export default function Search() {
   const [purpose, setPurpose] = useState(purposes[0]);
   const [transportation, setTransportation] = useState(transportations[0]);
   const [selectedCompanions, setSelectedCompanions] = useState([]);
-  const [duration, setDuration] = useState(5);
+  const [companionError, setCompanionError] = useState('');
+  const [isCompanionOpen, setIsCompanionOpen] = useState(false);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const companionDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        companionDropdownRef.current &&
+        !companionDropdownRef.current.contains(event.target)
+      ) {
+        setIsCompanionOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleCompanionToggle = (companion) => {
-    setSelectedCompanions(prev =>
+    setSelectedCompanions((prev) =>
       prev.includes(companion)
-        ? prev.filter(c => c !== companion)
+        ? prev.filter((item) => item !== companion)
         : [...prev, companion]
     );
+    setCompanionError('');
+  };
+
+  const getCompanionSummary = () => {
+    if (selectedCompanions.length === 0) {
+      return '동행자 유형 선택';
+    }
+
+    if (selectedCompanions.length === 1) {
+      return selectedCompanions[0];
+    }
+
+    return `${selectedCompanions[0]} 외 ${selectedCompanions.length - 1}개`;
   };
 
   const handleSearch = async () => {
+    if (selectedCompanions.length === 0) {
+      setCompanionError('동행자 유형을 선택해주세요.');
+      return;
+    }
+
+    setCompanionError('');
     setLoading(true);
     try {
       const response = await fetch(
@@ -54,8 +92,7 @@ export default function Search() {
             destination,
             purpose,
             transportation,
-            companion: selectedCompanions.join(", "),
-            duration
+            companion: selectedCompanions.join(", ")
           })
         }
       );
@@ -121,43 +158,46 @@ export default function Search() {
 
           <div className="filter-group">
             <label>동행자 유형</label>
-            <div className="multiselect-container">
-              {companions.map(companion => (
-                <label key={companion} className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={selectedCompanions.includes(companion)}
-                    onChange={() => handleCompanionToggle(companion)}
-                  />
-                  {companion}
-                </label>
-              ))}
+            <div className="companion-dropdown" ref={companionDropdownRef}>
+              <button
+                type="button"
+                className={`companion-trigger ${isCompanionOpen ? 'open' : ''}`}
+                onClick={() => setIsCompanionOpen((prev) => !prev)}
+                aria-expanded={isCompanionOpen}
+              >
+                <span className={selectedCompanions.length === 0 ? 'placeholder' : ''}>
+                  {getCompanionSummary()}
+                </span>
+                <span className="companion-arrow">▾</span>
+              </button>
+
+              {isCompanionOpen && (
+                <div className="companion-menu">
+                  {companions.map((companion) => (
+                    <label key={companion} className="companion-option">
+                      <input
+                        type="checkbox"
+                        checked={selectedCompanions.includes(companion)}
+                        onChange={() => handleCompanionToggle(companion)}
+                      />
+                      <span>{companion}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
+            {companionError && <p className="field-error">{companionError}</p>}
           </div>
         </div>
 
-        <div className="filter-grid-2">
-          <div className="filter-group">
-            <label>최대 이동 시간 (시간): {duration}시간</label>
-            <input 
-              type="range" 
-              min="1" 
-              max="24" 
-              value={duration}
-              onChange={(e) => setDuration(Number(e.target.value))}
-              className="slider-input"
-            />
-          </div>
-
-          <div className="filter-group button-group">
-            <button 
-              onClick={handleSearch}
-              disabled={loading}
-              className="search-btn"
-            >
-              {loading ? '검색 중...' : '🔍 검색'}
-            </button>
-          </div>
+        <div className="button-row">
+          <button 
+            onClick={handleSearch}
+            disabled={loading}
+            className="search-btn"
+          >
+            {loading ? '검색 중...' : '🔍 검색'}
+          </button>
         </div>
       </div>
 

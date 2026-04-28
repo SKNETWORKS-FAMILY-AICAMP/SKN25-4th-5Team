@@ -1,9 +1,11 @@
+/* 검색 페이지 전체 바깥 여백과 최대 너비 */
 .search-container {
   padding: 60px 0;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* 페이지 메인 제목 */
 .search-container h1 {
   font-size: 36px;
   font-weight: 700;
@@ -11,90 +13,169 @@
   color: #333;
 }
 
-.subtitle {
+/* 제목 아래 설명 문구 */
+.search-container .subtitle {
   color: #666;
   font-size: 16px;
   margin: 0 0 30px 0;
 }
 
-.divider {
+/* 제목과 필터 박스를 나누는 선 */
+.search-container .divider {
   border: none;
   border-top: 1px solid #e0e0e0;
   margin: 30px 0;
 }
 
-/* Filters Section */
-.filters-section {
+/* 검색 조건 전체 박스 */
+.search-container .filters-section {
   background: #fafafa;
   padding: 40px;
   border-radius: 12px;
   margin-bottom: 40px;
 }
 
-.filter-grid-2 {
+/* 2열 배치용 그리드 */
+.search-container .filter-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
 }
 
-.filter-group {
+/* 각 입력 블록을 세로로 쌓음 */
+.search-container .filter-group {
   display: flex;
   flex-direction: column;
 }
 
-.filter-group label {
+/* 목적지 선택, 여행 목적 같은 항목 제목 */
+.search-container .filter-group > label {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   margin-bottom: 8px;
   color: #333;
 }
 
-.select-input {
-  padding: 12px;
+/* 기본 select 3개 공통 스타일 */
+.search-container .select-input {
+  width: 100%;
+  height: 32px;
+  padding: 0 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.3s ease;
 }
 
-.select-input:hover,
-.select-input:focus {
+.search-container .select-input:hover,
+.search-container .select-input:focus {
   outline: none;
   border-color: #ff3b3b;
 }
 
-/* Multiselect */
-.multiselect-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  max-height: 120px;
-  overflow-y: auto;
-  padding: 12px;
+/* 동행자 유형 드롭다운 전체 영역 */
+.companion-dropdown {
+  position: relative;
+}
+
+/* 닫혀 있을 때 보이는 동행자 선택 박스 */
+.companion-trigger {
+  width: 100%;
+  height: 32px;
+  padding: 0 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: white;
-}
-
-.checkbox-label {
+  font-size: 16px;
+  font-family: inherit;
+  color: #333;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 12px;
   cursor: pointer;
-  font-size: 13px;
-  user-select: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.checkbox-label input[type="checkbox"] {
+.companion-trigger:hover,
+.companion-trigger.open {
+  border-color: #ff3b3b;
+}
+
+.companion-trigger.open {
+  box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.12);
+}
+
+.companion-trigger .placeholder {
+  color: #888;
+}
+
+/* 오른쪽 아래 화살표 */
+.companion-arrow {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #666;
+  line-height: 1;
+}
+
+/* 펼쳤을 때 보이는 동행자 목록 */
+.companion-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+
+/* 동행자 목록 안의 각 선택 줄 */
+.companion-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.companion-option:hover {
+  background: #fff3f3;
+}
+
+/* 동행자 체크박스 크기 */
+.companion-option input[type='checkbox'] {
+  width: 10px;
+  height: 10px;
   cursor: pointer;
   accent-color: #ff3b3b;
 }
 
-/* Slider */
-.slider-input {
+/* 동행자 미선택 시 표시되는 에러 문구 */
+.search-container .field-error {
+  margin-top: 8px;
+  color: #e53935;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 검색 버튼을 가운데 정렬하는 줄 */
+.search-container .slider-input {
   width: 100%;
   height: 6px;
   border-radius: 3px;
@@ -103,7 +184,7 @@
   -webkit-appearance: none;
 }
 
-.slider-input::-webkit-slider-thumb {
+.search-container .slider-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
@@ -114,7 +195,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.slider-input::-moz-range-thumb {
+.search-container .slider-input::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -124,53 +205,56 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Button Group */
-.button-group {
+/* 가운데 정렬된 검색 버튼 영역 */
+.search-container .button-row {
   display: flex;
-  align-items: flex-end;
+  justify-content: center;
+  margin-top: 28px;
 }
 
-.search-btn {
-  width: 100%;
-  padding: 12px 24px;
+/* 실제 검색 버튼 */
+.search-container .search-btn {
+  width: min(100%, 760px);
+  min-height: 56px;
+  padding: 14px 24px;
   background: linear-gradient(135deg, #ff6a6a, #ff3b3b);
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.search-btn:hover:not(:disabled) {
+.search-container .search-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 59, 59, 0.3);
 }
 
-.search-btn:disabled {
+.search-container .search-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* Results */
-.results-section {
+/* 검색 결과 전체 영역 */
+.search-container .results-section {
   margin-top: 40px;
 }
 
-.results-section h2 {
+.search-container .results-section h2 {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.results-grid {
+.search-container .results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
 
-.result-card {
+.search-container .result-card {
   background: white;
   padding: 20px;
   border-radius: 12px;
@@ -178,45 +262,45 @@
   transition: all 0.3s ease;
 }
 
-.result-card:hover {
+.search-container .result-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.result-card h3 {
+.search-container .result-card h3 {
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 8px 0;
   color: #333;
 }
 
-.result-card .location {
+.search-container .result-card .location {
   font-size: 13px;
   color: #ff3b3b;
   margin: 4px 0;
 }
 
-.result-card .content-type {
+.search-container .result-card .content-type {
   font-size: 12px;
   color: #999;
   margin: 4px 0;
 }
 
-.result-card .description {
+.search-container .result-card .description {
   font-size: 13px;
   color: #666;
   line-height: 1.4;
   margin: 8px 0 0 0;
 }
 
-.empty-state {
+.search-container .empty-state {
   text-align: center;
   padding: 60px 20px;
   color: #999;
   font-size: 16px;
 }
 
-/* Responsive */
+/* 모바일 화면에서의 크기 조정 */
 @media (max-width: 768px) {
   .search-container {
     padding: 40px 0;
@@ -226,16 +310,37 @@
     font-size: 28px;
   }
 
-  .filters-section {
+  .search-container .filters-section {
     padding: 20px;
   }
 
-  .filter-grid-2 {
+  .search-container .filter-grid-2 {
     grid-template-columns: 1fr;
   }
 
-  .multiselect-container {
+  /* 모바일에서는 제목 글자를 조금 줄임 */
+  .filter-group label {
+    font-size: 17px;
+  }
+
+  /* 모바일에서는 버튼 위 여백을 줄임 */
+  .search-container .button-row {
+    margin-top: 20px;
+  }
+
+  /* 모바일에서는 버튼을 가로 전체 사용 */
+  .search-container .search-btn {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  /* 모바일에서는 동행자 목록을 한 줄씩 표시 */
+  .companion-menu {
     grid-template-columns: 1fr;
+  }
+
+  .companion-option {
+    font-size: 11px;
   }
 
   .results-grid {
