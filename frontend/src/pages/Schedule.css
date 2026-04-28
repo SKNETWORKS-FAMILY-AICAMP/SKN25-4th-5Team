@@ -71,10 +71,11 @@
   width: 100%;
   height: 6px;
   border-radius: 3px;
-  background: linear-gradient(to right, #ddd 0%, #ff3b3b 100%);
+  background: #ddd; 
   outline: none;
   -webkit-appearance: none;
   cursor: pointer;
+  appearance: none;
 }
 
 .schedule-container .slider-input::-webkit-slider-thumb {
@@ -86,6 +87,7 @@
   background: #ff3b3b;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 2px solid #ffffff; 
 }
 
 .schedule-container .slider-input::-moz-range-thumb {
@@ -94,7 +96,7 @@
   border-radius: 50%;
   background: #ff3b3b;
   cursor: pointer;
-  border: none;
+  border: 2px solid #ffffff; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -146,7 +148,7 @@
 /* Trip Info */
 .schedule-container .trip-info {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-bottom: 40px;
   padding-bottom: 30px;
