@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from ai.rag import chat_rag
@@ -57,10 +57,16 @@ def chat_list(request):
     ])
 
 
-# 특정 대화 불러오기
-@api_view(['GET'])
+# 특정 대화 불러오기 / 삭제
+@api_view(['GET', 'DELETE'])
 def get_chat(request, chat_id):
-    messages = ChatMessage.objects.filter(chat_id=chat_id).order_by("created_at")
+    chat = get_object_or_404(ChatSession, id=chat_id)
+
+    if request.method == 'DELETE':
+        chat.delete()
+        return Response({"status": "deleted"})
+
+    messages = ChatMessage.objects.filter(chat=chat).order_by("created_at")
 
     return Response([
         {
