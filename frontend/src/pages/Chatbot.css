@@ -77,6 +77,9 @@
   flex-basis: 260px;
   padding: 16px;
   border: 1px solid #e7e7e7;
+  display: flex;          
+  flex-direction: column; 
+  height: 100%;
 }
 
 .history-header {
@@ -111,11 +114,26 @@
 }
 
 .history-list {
+  overflow-y: auto;          
+  padding-right: 8px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
   max-height: calc(100vh - 340px);
   overflow-y: auto;
+}
+.history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .history-empty {
@@ -200,7 +218,7 @@
 
 .message-wrapper {
   display: flex;
-  width: 100%; /* 전체 너비 사용 */
+  width: 100%;
   margin-bottom: 16px;
 }
 
@@ -213,15 +231,21 @@
 }
 
 .message {
-  max-width: 70%;
-  padding: 12px 16px;
+  width: 60%;
+  max-width: 60%;
+  padding: 18px 40px;
   border-radius: 12px;
   word-wrap: break-word;
 }
 
 .message-wrapper.user .message {
-  background: linear-gradient(135deg, #ff6a6a, #ff3b3b);
-  color: white;
+  background: linear-gradient(135deg, rgba(255, 59, 59, 0.05));
+  color: rgb(0, 0, 0);
+  width: auto;               
+  max-width: 60%;            
+  display: inline-block;    
+  margin-left: auto;         
+  text-align: right;
 }
 
 .message-wrapper.assistant .message {

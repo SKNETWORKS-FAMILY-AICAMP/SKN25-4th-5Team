@@ -5,4 +5,5 @@ class PlanRequestSerializer(serializers.Serializer):
     destination = serializers.CharField()
     travel_type = serializers.CharField()
     transportation = serializers.CharField()
-    departure_time = serializers.IntegerField(min_value=0, max_value=23)
+    departure_hour = serializers.IntegerField(min_value=0, max_value=23)
+    day_count = serializers.IntegerField(min_value=1, max_value=14)
