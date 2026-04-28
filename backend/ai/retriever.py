@@ -1,11 +1,12 @@
 import psycopg2
 from ai.llm import get_embedding
 import os
+from functools import lru_cache
 
 # DB
 def get_connection():
     return psycopg2.connect(
-        host=os.getenv("POSTGRES_HOST"),  
+        host=os.getenv("POSTGRES_HOST"),
         port=os.getenv("POSTGRES_PORT"),
         user=os.getenv("POSTGRES_USER"),
         password=os.getenv("POSTGRES_PASSWORD"),
@@ -31,7 +32,7 @@ def retrieve_category(req):
 
     # 여행지 (결과 후보)
     cur.execute("""
-        SELECT 
+        SELECT
             title,
             sido_nm,
             content_type_nm,
@@ -47,9 +48,9 @@ def retrieve_category(req):
 
     places = cur.fetchall()
 
-    # 행동 패턴 
+    # 행동 패턴
     cur.execute("""
-        SELECT 
+        SELECT
             trip_visit_sido,
             trip_visit_sigungu,
             travel_activity,
@@ -79,7 +80,7 @@ def retrieve_category(req):
     behavior_text = "\n".join([
         f"{row[0]} {row[1]}에서 {row[2]} 활동, 동행자: {row[3]}"
         for row in behavior
-    ]) 
+    ])
 
     # 결과 반환
     return {
@@ -88,15 +89,14 @@ def retrieve_category(req):
     }
 
 
-
 def retrieve_plan(req):
 
     conn = get_connection()
     cur = conn.cursor()
 
-    # 행동패턴 
+    # 행동패턴
     cur.execute("""
-        SELECT 
+        SELECT
             trip_visit_sido,
             trip_visit_sigungu,
             travel_activity,
@@ -108,9 +108,9 @@ def retrieve_plan(req):
 
     behavior = cur.fetchall()
 
-    #  여행지 후보 
+    # 여행지 후보
     cur.execute("""
-        SELECT 
+        SELECT
             title,
             sido_nm,
             sgg_nm,
@@ -280,8 +280,49 @@ def rerank_chat_places(places, message):
     return [item for _, _, item in ranked]
 
 
+def dedupe_places(places):
+    seen = set()
+    deduped = []
+
+    for place in places:
+        key = (
+            place.get("title"),
+            place.get("sido_nm"),
+            place.get("sgg_nm"),
+            place.get("content_type_nm"),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(place)
+
+    return deduped
+
+
+@lru_cache(maxsize=1)
+def get_regions():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT DISTINCT sido_nm FROM travel_place_vectors")
+    regions = [row[0] for row in cur.fetchall()]
+
+    cur.close()
+    conn.close()
+
+    return regions
+
+
+def detect_region(message):
+    regions = get_regions()
+    for region in regions:
+        if region in message:
+            return region
+    return None
+
+
 # 채팅 검색
-def retrieve_chat(message, history=None, limit=5):
+def retrieve_chat(message, history=None, limit=5, region=None):
     resolved_query = build_chat_query(message, history)
     selected_place = extract_selected_place(message, history)
     meta_chat = is_meta_chat(message)
@@ -304,7 +345,7 @@ def retrieve_chat(message, history=None, limit=5):
             focused_embedding = get_embedding(focused_query)
 
             cur.execute("""
-                SELECT 
+                SELECT
                     title,
                     sido_nm,
                     content_type_nm,
@@ -338,9 +379,9 @@ def retrieve_chat(message, history=None, limit=5):
                 if len(places) >= limit:
                     break
         else:
-            # 일반 후보 검색
+            # 일반 후보 검색 (region 필터 지원)
             cur.execute("""
-                SELECT 
+                SELECT
                     title,
                     sido_nm,
                     content_type_nm,
@@ -348,9 +389,16 @@ def retrieve_chat(message, history=None, limit=5):
                     source,
                     embedding <-> %s::vector AS distance
                 FROM travel_place_vectors
+                WHERE (%s IS NULL OR sido_nm = %s)
                 ORDER BY embedding <-> %s::vector
                 LIMIT %s
-            """, (query_embedding, query_embedding, max(limit * 4, 20)))
+            """, (
+                query_embedding,
+                region,
+                region,
+                query_embedding,
+                max(limit * 4, 20)
+            ))
 
             rows = cur.fetchall()
             places = [
@@ -361,13 +409,14 @@ def retrieve_chat(message, history=None, limit=5):
                     "sgg_nm": row[3],
                     "source": row[4],
                 }
-                for row in rows[:limit]
+                for row in rows
             ]
-
-        places = rerank_chat_places(places, message)
+            places = dedupe_places(places)
+            places = rerank_chat_places(places, message)
+            places = places[:limit]
 
         cur.execute("""
-            SELECT 
+            SELECT
                 trip_visit_sido,
                 trip_visit_sigungu,
                 travel_activity,

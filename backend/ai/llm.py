@@ -184,4 +184,3 @@ def generate_chat_response(message, docs, behavior_text="", history=None, select
 
     response = llm.invoke([HumanMessage(content=prompt)])
     return response.content
-    
