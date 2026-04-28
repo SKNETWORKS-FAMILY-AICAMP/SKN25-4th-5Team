@@ -74,6 +74,7 @@ def generate_plan_with_rag(req, data):
 
     behavior = data["behavior"]
     places = data["places"]
+    days = req.days  # req에서 일수 받아오기
 
     # 행동 패턴 텍스트
     behavior_text = "\n".join([
@@ -94,6 +95,7 @@ def generate_plan_with_rag(req, data):
 - 출발지: {req.departure}
 - 목적지: {req.destination}
 - 이동 수단: {req.transportation}
+- 여행 기간: {days}일 (반드시 1일차부터 {days}일차까지 작성)
 
 사용자 행동 패턴:
 {behavior_text}
@@ -102,10 +104,12 @@ def generate_plan_with_rag(req, data):
 {place_text}
 
 규칙:
+- 반드시 1일차부터 {days}일차까지 빠짐없이 작성하라
+- 일정 도중에 귀가하거나 출발지로 돌아가는 내용을 포함하지 마라
+- 추천 여행지를 {days}일에 걸쳐 고르게 배분하라
 - JSON 형식으로 출력하지 마라
 - "활동:" 같은 형식 사용하지 마라
-- 자연스러운 여행 일정 문장으로 작성
-- 사람이 여행 계획 짜듯이 작성
+- 간결한 여행 일정 문장으로 작성
 
 출력 형식:
 
@@ -118,7 +122,7 @@ def generate_plan_with_rag(req, data):
 2일차
 ...
 
-
+(반드시 {days}일차까지 작성 완료)
 """
 
     res = llm.invoke([HumanMessage(content=prompt)])
@@ -149,71 +153,34 @@ def generate_chat_response(message, docs, behavior_text="", history=None, select
     ])
 
     prompt = f"""
-        너는 여행 추천 전문가 챗봇이다.
+    너는 자연스럽게 대화하는 여행 챗봇이다.
 
-        사용자 질문:
-        {message}
+    사용자 현재 질문:
+    {message}
 
-        이전 대화:
-        {history_text}
+    이전 대화:
+    {history_text}
 
-        검색된 여행지 후보:
-        {context if context else "없음"}
+    선택된 기준 여행지:
+    {selected_place if selected_place else "없음"}
 
-        유사 행동 패턴:
-        {behavior_text if behavior_text else "없음"}
+    검색된 여행지 후보:
+    {context if context else "없음"}
 
-        ---
+    유사 행동 패턴:
+    {behavior_text if behavior_text else "없음"}
 
-        목표:
-        사용자의 조건에 맞는 여행지를 최대 3개 추천하고, 각 장소를 구체적으로 설명한다.
-
-        ---
-
-        필수 규칙:
-
-        1. 반드시 위 후보 리스트에서만 선택
-        2. 사용자 조건과 맞지 않는 장소는 절대 선택하지 마
-        (예: 반려동물인데 실내 쇼핑몰, 학교, 공공기관 ❌)
-        3. 조건과 맞는 장소가 없으면 "조건에 맞는 여행지가 없습니다"라고 말해
-        4. 절대 없는 장소를 만들지 마
-        5. 추천 장소에 같은 장소 반복하지 마
-
-        ---
-
-        추천 기준:
-
-        - 반려동물 → 산책 가능 / 야외 / 동반 가능 장소만
-        - 레포츠 → 액티비티, 체험 중심
-        - 관광 → 명소, 자연경관
-        - 지역 → 해당 지역만
-
-        ---
-
-        출력 형식 (무조건 지켜):
-
-        1. 장소명 (지역)
-        - 왜 추천하는지 (사용자 조건 기반)
-        - 어떤 경험을 할 수 있는지
-        - 어떤 사람에게 좋은지
-
-        2. 장소명 (지역)
-        - 동일 형식
-
-        (최대 3개)
-
-        ---
-
-        스타일:
-
-        - 자연스럽고 친근하게
-        - 불필요한 설명 없이 핵심만
-        - "이곳은~" 같은 반복 표현 줄이기
+    규칙:
+    - 사용자가 기억 여부나 이전 대화를 물으면 짧고 자연스럽게 답해.
+    - 다만 검색된 여행지 후보가 있고 사용자가 추천, 일정, 코스, 여행지 선택을 원하면 기억보다 추천을 우선해.
+    - 추천이 꼭 필요할 때만 추천을 제안해.
+    - 선택된 기준 여행지가 있으면 그 장소를 중심으로 답해.
+    - 검색 결과에 없는 정보는 지어내지 마.
+    - 말투는 친근하고 자연스럽게.
     """
 
     if meta_chat:
-        prompt += "\n- 이번 답변은 여행지 리스트를 억지로 만들지 마. 정말 필요한 경우에만 후보에서 선택해서 추천해."
+        prompt += "\n- 이번 답변은 여행지 리스트를 억지로 만들지 말고 1~3문장으로 자연스럽게 답해."
 
     response = llm.invoke([HumanMessage(content=prompt)])
     return response.content
-    
