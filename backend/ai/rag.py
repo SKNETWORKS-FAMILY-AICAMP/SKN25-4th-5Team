@@ -6,7 +6,7 @@ from ai.llm import (
     generate_plan_with_rag
 )
 
-# 카테고리 여행지 추천 
+# 카테고리 여행지 추천
 def category_rag(req):
     # 후보 여행지 + 행동 패턴
     result = retrieve_category(req)
@@ -21,7 +21,7 @@ def category_rag(req):
 
     final = []
 
-    # index 기반 실제 여행지 매칭 
+    # index 기반 실제 여행지 매칭
     for item in parsed:
         idx = item.get("index")
 
@@ -73,6 +73,7 @@ def chat_rag(message, history=None, limit=5):
         "resolved_query": result["resolved_query"],
     }
 
+
 def select_answer_places(answer, places, max_items=5):
     ordered = reorder_places(answer, dedupe_places(places))
     mentioned = [place for place in ordered if place["title"] in answer]
@@ -115,10 +116,7 @@ def reorder_places(answer, places):
         else:
             not_mentioned.append(p)
 
-    # LLM 언급 순서대로 정렬
     mentioned.sort(key=lambda x: x[0])
-
-    # 언급된 것 + 나머지 순서 유지
     ordered = [p for _, p in mentioned] + not_mentioned
 
     return ordered
@@ -131,6 +129,7 @@ def plan_rag(req):
     result = generate_plan_with_rag(req, data)
 
     return result
+
 
 # 지역 감지(챗봇)
 def detect_region(message):

@@ -49,6 +49,7 @@ SECRET_KEY = required_env('DJANGO_SECRET_KEY')
 DEBUG = env_bool('DJANGO_DEBUG', True)
 
 ALLOWED_HOSTS = env_list('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1')
+APPEND_SLASH = False
 
 
 # Application definition
