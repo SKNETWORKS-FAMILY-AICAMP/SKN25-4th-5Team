@@ -58,7 +58,8 @@
 
 .message-wrapper {
   display: flex;
-  margin-bottom: 12px;
+  width: 100%; /* 전체 너비 사용 */
+  margin-bottom: 16px;
 }
 
 .message-wrapper.user {
