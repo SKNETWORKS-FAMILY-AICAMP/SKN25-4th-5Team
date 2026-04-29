@@ -11,10 +11,10 @@
 
 <table>
   <tr>
-    <td align="center"><img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp" width="100px;" alt="박성진"/></td>
-    <td align="center"><img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp" width="100px;" alt="이상민"/></td>
-    <td align="center"><img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp" width="100px;" alt="이채림"/></td>
-    <td align="center"><img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp" width="100px;" alt="임하영"/></td>
+    <td align="center"><img src="https://i.namu.wiki/i/JzrpOAzg9t3ztUBJrLBJUd0wOM0oSi_UVvKosJ9RR8SVaPMHx2KS9LoEUUJs0VOE56OBFfGw407pWR69rmtvL0nLg6CuOsaRqE-OQI-uKUomx_LR3UL0EM6SLXb2NB8_Wm6WQqiHhsxZblLFNFq2zA.webp" width="100px;" alt="박성진"/></td>
+    <td align="center"><img src="https://i.namu.wiki/i/eakwklJXm97hJ1tSHpE7to5w5nbn0pgqnu3SGyk1GtFohsNoFL8QsXE3Ja4whDDnVKJLrxrwspJTCI_m8rRqXMeXw5efrl6P8cUtmEn1RU__QPflczalcykA7hQdSCTjRzjWgEqsShgeP6eLFDQHXw.webp" width="100px;" alt="이상민"/></td>
+    <td align="center"><img src="https://i.namu.wiki/i/DLgfpPVC3efTJFV-EdakI7V6GDj74U_5hjK2s0WJriVQrbgBtc5ErxVXYBtV5MtvmiLp3s7YYxuS3fJSc0YPaRzuXjsHWETS7u0Dn2PG8D99Bi78iYrP0eZSJFHWXZOEKXK2ViqdY7qQEYnI-FxEtw.webp" width="100px;" alt="이채림"/></td>
+    <td align="center"><img src="https://i.namu.wiki/i/4V7fMJj5dYjpAScwrihnrEPPdWm2n-gqnEaO6UNhYjyB7KfRNZrbitJDFNXGx_-M0eklDhe_TCY52DEsM0SZMogGLFa5VVketGkHyZr0x-Vl62-7en_QhnNyFB1EvefNqpGLFZmzBR-Kt2LuOeYSzg.webp" width="100px;" alt="임하영"/></td>
   </tr>
   <tr>
     <th align="center">박성진</th>
@@ -382,20 +382,21 @@ npm run build      # 프로덕션 빌드
 
 ---
 # 8. 페이지 소개
+<details>
+<summary> 페이지 시연 보기 (클릭)</summary>
+<br />
 
+</details>
 
 
 ---
-# 9. 한 줄 회고
-> <img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp"  width="20" style="vertical-align:middle;" />&nbsp;**박성진** : 
->
-><img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp" width="20" style="vertical-align:middle;" />&nbsp;**이상민** : 
->
-> <img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp"  width="20" style="vertical-align:middle;" />&nbsp;**이채림** :
->
-> <img src="https://i.namu.wiki/i/yn1QHEO9m758CYC4FhCBKuIzeGQK86oh4E42h_n6gJ3FKd4_dlFyXu5FNYheGNRcJTjlXzjlry7sqm-mYrxRY-arbAVyIWiQvH6XVfwXtQtIT1juhR-bwcFFEPZJrAbKZ27d3jYCOQJ6BcXnUPXUKQ.webp" width="20" style="vertical-align:middle;" />&nbsp;**임하영** : 
->
-> ---
+# 9. 테스트 계획 및 결과 보고서
+<details>
+<summary> 테스트 계획 및 결과 보고서 보기 (클릭)</summary>
+<br />
+
+</details>
+
 # 10.기술 스택 (Tech Stack)
 
 ### Frontend
@@ -424,4 +425,15 @@ npm run build      # 프로덕션 빌드
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ---
+# 11. 한 줄 회고
+> <img src="https://i.namu.wiki/i/JzrpOAzg9t3ztUBJrLBJUd0wOM0oSi_UVvKosJ9RR8SVaPMHx2KS9LoEUUJs0VOE56OBFfGw407pWR69rmtvL0nLg6CuOsaRqE-OQI-uKUomx_LR3UL0EM6SLXb2NB8_Wm6WQqiHhsxZblLFNFq2zA.webp"  width="20" style="vertical-align:middle;" />&nbsp;**박성진** : 
+>
+><img src="https://i.namu.wiki/i/eakwklJXm97hJ1tSHpE7to5w5nbn0pgqnu3SGyk1GtFohsNoFL8QsXE3Ja4whDDnVKJLrxrwspJTCI_m8rRqXMeXw5efrl6P8cUtmEn1RU__QPflczalcykA7hQdSCTjRzjWgEqsShgeP6eLFDQHXw.webp" width="20" style="vertical-align:middle;" />&nbsp;**이상민** : 
+>
+> <img src="https://i.namu.wiki/i/DLgfpPVC3efTJFV-EdakI7V6GDj74U_5hjK2s0WJriVQrbgBtc5ErxVXYBtV5MtvmiLp3s7YYxuS3fJSc0YPaRzuXjsHWETS7u0Dn2PG8D99Bi78iYrP0eZSJFHWXZOEKXK2ViqdY7qQEYnI-FxEtw.webp"  width="20" style="vertical-align:middle;" />&nbsp;**이채림** :
+>
+> <img src="https://i.namu.wiki/i/4V7fMJj5dYjpAScwrihnrEPPdWm2n-gqnEaO6UNhYjyB7KfRNZrbitJDFNXGx_-M0eklDhe_TCY52DEsM0SZMogGLFa5VVketGkHyZr0x-Vl62-7en_QhnNyFB1EvefNqpGLFZmzBR-Kt2LuOeYSzg.webp" width="20" style="vertical-align:middle;" />&nbsp;**임하영** : 
+>
+> ---
+
 
