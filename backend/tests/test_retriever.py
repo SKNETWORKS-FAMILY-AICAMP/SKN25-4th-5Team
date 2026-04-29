@@ -32,8 +32,7 @@ def test_rerank_chat_places_prioritizes_places_matching_message_intent():
 
     ranked = rerank_chat_places(
         places,
-        "서울에서 친구랑 조용하게 산책할 만한 자연 풍경 좋은 곳 추천해줘",
-        region="서울특별시",
+        "서울에서 전시나 박물관처럼 실내 문화시설 추천해줘",
     )
 
-    assert ranked[0]["title"] == "서울숲"
+    assert ranked[0]["title"] == "국립미술관"

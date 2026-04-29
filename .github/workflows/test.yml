@@ -51,11 +51,23 @@ jobs:
           done
           exit 1
 
+      - name: Debug service status
+        if: always()
+        run: docker compose ps
+
+      - name: Debug backend logs before migrations
+        if: always()
+        run: docker compose logs backend --tail=200
+
       - name: Run migrations
         run: docker compose exec -T backend python manage.py migrate --noinput
 
       - name: Run backend tests
         run: docker compose exec -T backend pytest
+
+      - name: Debug backend logs after failure
+        if: failure()
+        run: docker compose logs backend --tail=200
 
       - name: Stop containers
         if: always()
