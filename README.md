@@ -401,6 +401,184 @@ npm run build      # 프로덕션 빌드
 <summary> 테스트 계획 및 결과 보고서 보기 (클릭)</summary>
 <br />
 
+# 테스트 계획 및 결과 보고서
+
+## 1. 개요
+
+본 프로젝트는 Django 기반 백엔드, React 기반 프론트엔드, LangChain/OpenAI를 활용한 RAG 기반 여행 추천 및 질의응답 시스템이다.  
+본 문서는 시스템의 기능 정상 동작 여부와 LLM 응답 품질을 검증하기 위해 수행한 테스트 계획과 결과를 정리한다.
+
+---
+
+## 2. 테스트 목적
+
+- 백엔드 API 정상 동작 여부 확인
+- 여행지 추천, 챗봇, 일정 생성 기능 검증
+- LLM 응답 품질 비교 및 최적 버전 선정
+- GitHub Actions 기반 자동 테스트 환경 검증
+
+---
+
+## 3. 테스트 환경
+
+- Backend: Django, Django REST Framework
+- Frontend: React, Vite
+- Database: PostgreSQL + pgvector
+- LLM/RAG: LangChain, OpenAI, LangSmith
+- Test: pytest, GitHub Actions
+- Runtime: Docker Compose
+
+---
+
+## 4. 테스트 대상
+
+- 챗봇 API
+- 여행지 추천 API
+- 일정 생성 API
+- RAG 기반 응답 생성 로직
+- LangSmith 평가 실험
+- GitHub Actions 자동 테스트 환경
+
+---
+
+## 5. 테스트 계획
+
+### 5.1 기능 테스트
+
+- 챗봇 API 요청 및 응답 확인
+- 추천 API 입력값 검증 및 결과 반환 확인
+- 일정 생성 API 결과 구조 확인
+- 채팅 생성, 저장, 조회, 삭제 기능 확인
+
+### 5.2 LLM 품질 평가
+
+LangSmith를 활용하여 동일한 질문셋으로 여러 프롬프트 버전을 반복 실험
+
+평가 항목:
+- 답변 생성 여부
+- 기대 키워드 반영 여부
+- 금지 키워드 포함 여부
+- 추천 장소 수 적절성
+- 답변 관련성 및 자연스러움
+
+### 5.3 자동화 테스트
+
+GitHub Actions 기반 CI 구성
+
+- push / pull request 시 backend 테스트 자동 실행
+- Docker 환경에서 migration 및 pytest 수행
+- 기능 이상 여부 사전 검증
+
+---
+
+## 6. 평가 기준
+
+| 지표 | 설명 |
+|------|------|
+| answer_exists | 답변이 정상 생성되었는지 |
+| expected_keywords_match | 핵심 키워드 반영 여부 |
+| forbidden_keywords_absent | 부적절한 키워드 미포함 여부 |
+| place_count_ok | 추천 장소 수 적절성 |
+| llm_relevance_judge | 답변 관련성 및 자연스러움 (1~5점) |
+
+---
+
+## 7. 테스트 수행 내용
+
+### 7.1 기능 테스트
+
+pytest를 활용하여 backend 테스트 수행
+
+검증 항목:
+- 챗봇 API
+- 추천 API
+- 일정 생성 API
+- 채팅 CRUD 기능
+
+결과: 전체 테스트 통과
+
+---
+
+### 7.2 LLM 품질 평가
+
+LangSmith dataset을 구성하여 동일 질문셋으로 실험 진행
+
+비교 대상:
+- baseline
+- prompt v2
+- prompt v3
+- retrieval 개선 실험
+
+---
+
+### 7.3 자동화 테스트
+
+GitHub Actions 기반 자동화 수행
+
+실행 흐름:
+
+backend 컨테이너 빌드  
+→ database 실행  
+→ migration 수행  
+→ pytest 실행  
+
+초기에는 secret key 및 DB password 누락으로 실패 발생  
+→ GitHub Secrets 추가 후 해결
+
+---
+
+## 8. 테스트 결과
+
+### 8.1 기능 테스트
+
+- 챗봇 API: 정상 동작
+- 추천 API: 정상 동작
+- 일정 생성 API: 정상 동작
+- 채팅 CRUD: 정상 동작
+- pytest: 전체 통과
+
+---
+
+### 8.2 LLM 품질 평가
+
+여러 프롬프트 비교 결과:
+
+👉 3번째 실험 버전이 가장 높은 품질 점수 기록
+
+추가 규칙 및 retrieval 개선 실험 진행했으나  
+기존보다 높은 성능은 나오지 않음
+
+👉 최종 선택: **Prompt v3**
+
+---
+
+### 8.3 자동화 테스트
+
+- GitHub Actions 기반 CI 구축 완료
+- 초기 환경변수 누락 문제 해결
+- backend 테스트 자동 실행 가능 상태 확보
+
+---
+
+## 9. 문제점 및 개선 사항
+
+- 프롬프트 규칙 과도 추가 시 품질 저하 발생
+- retrieval 개선이 항상 성능 향상으로 이어지지 않음
+- 프롬프트와 검색 품질 간 균형 중요
+- CI 환경에서 secret 및 환경변수 관리 중요
+
+---
+
+## 10. 결론
+
+기능 테스트와 LLM 품질 평가를 통해 시스템 안정성과 응답 품질을 검증하였다.
+
+- pytest + GitHub Actions → 기능 테스트 자동화
+- LangSmith → 프롬프트 품질 비교 및 평가
+
+최종적으로 가장 높은 성능을 보인 **Prompt v3**를 채택하였으며,  
+테스트 기반으로 개선 방향을 도출할 수 있는 체계를 구축하였다.
+
 </details>
 
 # 10.기술 스택 (Tech Stack)
