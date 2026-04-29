@@ -385,6 +385,9 @@ npm run build      # 프로덕션 빌드
 <details>
 <summary> 페이지 시연 보기 (클릭)</summary>
 <br />
+  
+### 여행 챗봇
+<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/fa1c9893-bbd6-47cb-a24b-3c9b83c3f45e" />
 
 </details>
 
@@ -431,9 +434,10 @@ npm run build      # 프로덕션 빌드
 ><img src="https://i.namu.wiki/i/eakwklJXm97hJ1tSHpE7to5w5nbn0pgqnu3SGyk1GtFohsNoFL8QsXE3Ja4whDDnVKJLrxrwspJTCI_m8rRqXMeXw5efrl6P8cUtmEn1RU__QPflczalcykA7hQdSCTjRzjWgEqsShgeP6eLFDQHXw.webp" width="20" style="vertical-align:middle;" />&nbsp;**이상민** : “이번에는 LangSmith, pytest, GitHub Actions를 활용한 테스트와 실험 과정을 추가하면서, 단순히 기능 구현을 넘어서 결과를 검증하고 개선하는 방법까지 새롭게 배울 수 있었다.”
 
 >
-> <img src="https://i.namu.wiki/i/DLgfpPVC3efTJFV-EdakI7V6GDj74U_5hjK2s0WJriVQrbgBtc5ErxVXYBtV5MtvmiLp3s7YYxuS3fJSc0YPaRzuXjsHWETS7u0Dn2PG8D99Bi78iYrP0eZSJFHWXZOEKXK2ViqdY7qQEYnI-FxEtw.webp"  width="20" style="vertical-align:middle;" />&nbsp;**이채림** :
+> <img src="https://i.namu.wiki/i/DLgfpPVC3efTJFV-EdakI7V6GDj74U_5hjK2s0WJriVQrbgBtc5ErxVXYBtV5MtvmiLp3s7YYxuS3fJSc0YPaRzuXjsHWETS7u0Dn2PG8D99Bi78iYrP0eZSJFHWXZOEKXK2ViqdY7qQEYnI-FxEtw.webp"  width="20" style="vertical-align:middle;" />&nbsp;**이채림** : “LLM이 실제 DB 기반으로 답변하도록 프롬프트와 검색 로직을 조정하며, AI 서비스에서는 데이터 품질과 응답 제어가 중요하다는 점을 배웠다. 
+짧은 기간이라 정교화는 아쉬웠지만, 백엔드와 프론트엔드가 연결된 실사용 흐름을 경험할 수 있었다.”
 >
-> <img src="https://i.namu.wiki/i/4V7fMJj5dYjpAScwrihnrEPPdWm2n-gqnEaO6UNhYjyB7KfRNZrbitJDFNXGx_-M0eklDhe_TCY52DEsM0SZMogGLFa5VVketGkHyZr0x-Vl62-7en_QhnNyFB1EvefNqpGLFZmzBR-Kt2LuOeYSzg.webp" width="20" style="vertical-align:middle;" />&nbsp;**임하영** : 
+> <img src="https://i.namu.wiki/i/4V7fMJj5dYjpAScwrihnrEPPdWm2n-gqnEaO6UNhYjyB7KfRNZrbitJDFNXGx_-M0eklDhe_TCY52DEsM0SZMogGLFa5VVketGkHyZr0x-Vl62-7en_QhnNyFB1EvefNqpGLFZmzBR-Kt2LuOeYSzg.webp" width="20" style="vertical-align:middle;" />&nbsp;**임하영** : “요구사항 정의서를 직접 정리하고 이를 바탕으로 여행 플래너 백엔드 API를 구현하면서 전체 개발 흐름을 이해할 수 있었고, LLM 프롬프트 성능 개선을 위해 다양한 방식으로 실험을 진행하며 결과의 차이도 직접 확인할 수 있었습니다. 아직 부족한 부분이 많지만 이러한 과정을 통해 설계와 개선의 중요성을 자연스럽게 느낄 수 있었습니다.”
 >
 > ---
 
