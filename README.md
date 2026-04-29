@@ -12,7 +12,7 @@
 <table>
   <tr>
     <td align="center"><img src="https://i.namu.wiki/i/JzrpOAzg9t3ztUBJrLBJUd0wOM0oSi_UVvKosJ9RR8SVaPMHx2KS9LoEUUJs0VOE56OBFfGw407pWR69rmtvL0nLg6CuOsaRqE-OQI-uKUomx_LR3UL0EM6SLXb2NB8_Wm6WQqiHhsxZblLFNFq2zA.webp" width="100px;" alt="박성진"/></td>
-    <td align="center"><img src="https://i.namu.wiki/i/eakwklJXm97hJ1tSHpE7to5w5nbn0pgqnu3SGyk1GtFohsNoFL8QsXE3Ja4whDDnVKJLrxrwspJTCI_m8rRqXMeXw5efrl6P8cUtmEn1RU__QPflczalcykA7hQdSCTjRzjWgEqsShgeP6eLFDQHXw.webp" width="100px;" alt="이상민"/></td>
+    <td align="center"><img src="https://i.namu.wiki/i/73JWp2sKW5Cnm9oq45MMtpvwo1k6JenfyyphZGETBHGJ1oDZ3J4JiZiHlQfrt6S23T4g8FXGQXrBbQnk9yH44RPtQ0xKykwxkEz2jdRGUSGn6wlRHspSNA4pw-Yjj0LBTfFHWLFieoeNUo1eo44QGA.webp" width="100px;" alt="이상민"/></td>
     <td align="center"><img src="https://i.namu.wiki/i/DLgfpPVC3efTJFV-EdakI7V6GDj74U_5hjK2s0WJriVQrbgBtc5ErxVXYBtV5MtvmiLp3s7YYxuS3fJSc0YPaRzuXjsHWETS7u0Dn2PG8D99Bi78iYrP0eZSJFHWXZOEKXK2ViqdY7qQEYnI-FxEtw.webp" width="100px;" alt="이채림"/></td>
     <td align="center"><img src="https://i.namu.wiki/i/4V7fMJj5dYjpAScwrihnrEPPdWm2n-gqnEaO6UNhYjyB7KfRNZrbitJDFNXGx_-M0eklDhe_TCY52DEsM0SZMogGLFa5VVketGkHyZr0x-Vl62-7en_QhnNyFB1EvefNqpGLFZmzBR-Kt2LuOeYSzg.webp" width="100px;" alt="임하영"/></td>
   </tr>
