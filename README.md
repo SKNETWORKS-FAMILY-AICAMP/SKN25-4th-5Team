@@ -29,10 +29,10 @@
     <td align="center"><a href="https://github.com/pureunsaerok-ship-it">pureunsaerok</a></td>
   </tr>
   <tr>
-    <th align="center">프론트엔드</th>
-    <th align="center">환경구축, 프론트엔드</th>
-    <th align="center">백엔드</th>
-    <th align="center">백엔드</th>
+    <th align="center">전체 페이지 레이아웃 및 UI 설계</th>
+    <th align="center">환경구축, LLM 테스트 및 성능 평가</th>
+    <th align="center">여행지 추천, 여행 챗봇 백엔드 API</th>
+    <th align="center">요구사항 정의서, 여행 플래너 백엔드 API</th>
   </tr>
 </table>
 
