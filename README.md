@@ -364,27 +364,21 @@ npm run build      # 프로덕션 빌드
 </details>
 
 
-# 7. AI 파이프라인 구조
+# 7. 파이프라인 구조, ERD
 
-```
-사용자 입력
-    │
-    ▼
-쿼리 확장 / 카테고리 키워드 추출
-    │
-    ├─ 벡터 검색 (pgvector)
-    │      ├─ travel_place_vectors (여행지 임베딩)
-    │      └─ user_behavior_vectors (행동 패턴 임베딩)
-    │
-    ▼
-컨텍스트 구성 (RAG)
-    │
-    ▼
-GPT-4o-mini 응답 생성
-    │
-    ▼
-결과 파싱 및 반환
-```
+<details>
+<summary> 파이프라인 및 ERD 시각화 자료 보기 (클릭)</summary>
+<br />
+
+###  AI 파이프라인 구조
+![AI Pipeline](./frontend/src/assets/pipeline.png)
+
+###  데이터베이스 ERD
+![ERD](./frontend/src/assets/erd.png)
+
+</details>
+
+
 
 ---
 # 8. 페이지 소개
