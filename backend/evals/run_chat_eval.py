@@ -16,6 +16,7 @@ from ai.rag import chat_rag
 DATASET_NAME = os.getenv("LANGSMITH_CHAT_DATASET", "skn25-chat-eval")
 EXPERIMENT_PREFIX = os.getenv("LANGSMITH_CHAT_EXPERIMENT", "chat-rag-baseline")
 PROMPT_VARIANT = os.getenv("CHAT_PROMPT_VARIANT", "v1")
+MAX_CONCURRENCY = int(os.getenv("LANGSMITH_EVAL_CONCURRENCY", "1"))
 
 
 judge_llm = ChatOpenAI(
@@ -125,7 +126,7 @@ def main():
         ],
         experiment_prefix=EXPERIMENT_PREFIX,
         description=f"SKN25 chat RAG evaluation ({PROMPT_VARIANT})",
-        max_concurrency=2,
+        max_concurrency=MAX_CONCURRENCY,
     )
 
     print("EVAL_DONE")

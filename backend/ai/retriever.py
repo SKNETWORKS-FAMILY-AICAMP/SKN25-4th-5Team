@@ -257,8 +257,53 @@ def extract_category_keywords(message):
     return matched
 
 
+def extract_preference_signals(message):
+    signal_map = {
+        "quiet": ["조용", "한적", "여유", "산책", "힐링"],
+        "indoor": ["실내", "비 오는", "비오는", "전시", "박물관", "미술관"],
+        "history": ["역사", "유적", "궁", "한옥", "문화재"],
+        "nature": ["자연", "풍경", "숲", "공원", "바다", "호수", "오름"],
+        "romantic": ["연인", "감성", "사진", "야경", "데이트"],
+        "food": ["맛집", "음식", "식당", "카페", "먹거리"],
+    }
+
+    matched = set()
+    for signal, keywords in signal_map.items():
+        if any(keyword in message for keyword in keywords):
+            matched.add(signal)
+    return matched
+
+
+def score_place_by_signal(item, signals):
+    if not signals:
+        return 0
+
+    title = item.get("title", "")
+    content_type = item.get("content_type_nm", "")
+    score = 0
+
+    if "quiet" in signals and any(keyword in title for keyword in ["숲", "공원", "정원", "궁", "한옥", "수목원", "호수"]):
+        score += 2
+    if "indoor" in signals and (
+        content_type == "문화시설" or any(keyword in title for keyword in ["박물관", "미술관", "전시", "아트", "센터"])
+    ):
+        score += 2
+    if "history" in signals and any(keyword in title for keyword in ["궁", "한옥", "유적", "박물관", "사", "문화"]):
+        score += 2
+    if "nature" in signals and any(keyword in title for keyword in ["숲", "공원", "호수", "해변", "오름", "폭포", "정원"]):
+        score += 2
+    if "romantic" in signals and any(keyword in title for keyword in ["야경", "한옥", "공원", "정원", "전망", "다리", "해변"]):
+        score += 2
+    if "food" in signals and (
+        content_type == "음식점" or any(keyword in title for keyword in ["카페", "식당", "시장", "맛집"])
+    ):
+        score += 2
+
+    return score
+
+
 # 카테고리 가중치
-def rerank_chat_places(places, message):
+def rerank_chat_places(places, message, region=None):
     preferred_categories = extract_category_keywords(message)
     if not preferred_categories:
         return places
@@ -417,7 +462,7 @@ def retrieve_chat(message, history=None, limit=5, region=None):
                 for row in rows
             ]
             places = dedupe_places(places)
-            places = rerank_chat_places(places, message)
+            places = rerank_chat_places(places, message, region=region)
             places = places[:limit]
 
         cur.execute("""
@@ -430,8 +475,8 @@ def retrieve_chat(message, history=None, limit=5, region=None):
             ORDER BY embedding <-> %s::vector
             LIMIT 5
         """, (query_embedding,))
-
         behavior = cur.fetchall()
+
         behavior_text = "\n".join([
             f"{row[0]} {row[1]}에서 {row[2]} 활동, 동행자: {row[3]}"
             for row in behavior

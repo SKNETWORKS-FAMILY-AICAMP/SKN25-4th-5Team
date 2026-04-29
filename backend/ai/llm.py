@@ -16,7 +16,21 @@ llm = ChatOpenAI(
 
 
 def get_chat_prompt_variant():
-    return os.getenv("CHAT_PROMPT_VARIANT", "v1").strip().lower()
+    return os.getenv("CHAT_PROMPT_VARIANT", "v3").strip().lower()
+
+
+def get_chat_history_limit(prompt_variant):
+    raw_limit = os.getenv("CHAT_HISTORY_LIMIT")
+    if raw_limit:
+        try:
+            return max(0, int(raw_limit))
+        except ValueError:
+            pass
+
+    if prompt_variant == "v4":
+        return 3
+
+    return 6
 
 # 임베딩 함수 
 @traceable(name="get_embedding", run_type="embedding")
@@ -161,10 +175,12 @@ def parse_category_json(text):
 # 채팅 응답 생성
 @traceable(name="generate_chat_response", run_type="llm")
 def generate_chat_response(message, docs, behavior_text="", history=None, selected_place=None, meta_chat=False):
+    prompt_variant = get_chat_prompt_variant()
+    history_limit = get_chat_history_limit(prompt_variant)
     history = history or []
     history_text = "\n".join([
         f"{item.get('role', 'user')}: {item.get('content', '')}"
-        for item in history[-6:]
+        for item in history[-history_limit:]
     ])
 
     context = "\n".join([
@@ -199,8 +215,6 @@ def generate_chat_response(message, docs, behavior_text="", history=None, select
     - 말투는 친근하고 자연스럽게.
     """
 
-    prompt_variant = get_chat_prompt_variant()
-
     if prompt_variant == "v2":
         prompt += """
 
@@ -220,6 +234,40 @@ def generate_chat_response(message, docs, behavior_text="", history=None, select
     - 검색된 후보 안에서만 추천하고, 후보 밖 정보는 절대 추측하지 마.
     - 추천이 어렵다면 부족한 조건이 무엇인지 짧게 설명해.
     - 답변 마지막 문장에는 다음 질문 예시를 한 개만 제안해.
+        """
+    elif prompt_variant == "v4":
+        prompt += """
+
+    추가 규칙:
+    - 질문 의도에 맞는 추천 방향을 첫 문장에서 짧게 정리해.
+    - 검색된 후보 안에서만 추천하고, 후보 밖 정보는 추측하지 마.
+    - 여행지 이름은 1~2개만 언급하고, 각각 왜 맞는지 짧게 붙여.
+    - 추천이 어렵다면 부족한 조건만 한 문장으로 설명해.
+    - 답변은 2~4문장 안에서 끝내고, 마지막에 추가 질문 예시는 붙이지 마.
+        """
+    elif prompt_variant == "v5":
+        prompt += """
+
+    추가 규칙:
+    - 첫 문장에서 사용자의 여행 조건과 질문 의도를 한 문장으로 자연스럽게 요약해.
+    - 검색된 후보 안에서만 추천하고, 후보 밖 정보는 절대 추측하지 마.
+    - 추천 여행지는 2~3개까지 언급해도 되지만, 각 장소마다 사용자 조건에 맞는 이유를 아주 구체적으로 짧게 붙여.
+    - 동행자, 분위기, 활동 목적, 이동 편의성 중 질문과 관련 있는 조건을 우선 반영해.
+    - 여러 장소를 추천할 때는 서로 어떻게 다른지 비교가 되게 설명해.
+    - 후보가 부족하거나 애매하면 억지 추천 대신 어떤 조건이 더 필요할지 솔직하게 안내해.
+    - 답변 마지막에는 사용자가 바로 이어서 물어볼 만한 다음 질문을 한 문장으로 제안해.
+    - 답변은 4~6문장 안에서 충분히 친절하게 마무리해.
+        """
+    elif prompt_variant == "v6":
+        prompt += """
+
+    추가 규칙:
+    - 사용자의 질문 의도를 먼저 짧게 정리한 뒤 답변해.
+    - 검색된 후보 안에서만 추천하고, 후보 밖 정보는 절대 추측하지 마.
+    - 동행자, 분위기, 활동 목적처럼 질문과 직접 연결된 조건을 우선 반영해.
+    - 추천 장소를 말할 때는 1~3개까지만 자연스럽게 언급하고, 왜 어울리는지 짧게 설명해.
+    - 후보가 애매하면 억지로 단정하지 말고, 현재 후보 안에서 가장 맞는 방향만 안내해.
+    - 답변 마지막에는 사용자가 이어서 고를 수 있게 선택 기준이나 다음 질문을 짧게 한 문장 제안해.
         """
 
     if meta_chat:
