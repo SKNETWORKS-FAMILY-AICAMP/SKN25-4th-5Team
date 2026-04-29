@@ -255,16 +255,24 @@
 }
 
 .search-container .result-card {
+  display: block;
   background: white;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: inherit;
+  text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .search-container .result-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.search-container .result-card:focus-visible {
+  outline: 3px solid rgba(255, 59, 59, 0.25);
+  outline-offset: 3px;
 }
 
 .search-container .result-card h3 {
