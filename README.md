@@ -389,6 +389,9 @@ npm run build      # 프로덕션 빌드
 ### 여행 챗봇
 <img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/fa1c9893-bbd6-47cb-a24b-3c9b83c3f45e" />
 
+### 여행 플래너
+<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/ed412ccc-8d90-4b03-91aa-84632edc4132" />
+
 </details>
 
 
