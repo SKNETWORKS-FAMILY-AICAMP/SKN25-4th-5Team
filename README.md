@@ -400,6 +400,7 @@ npm run build      # 프로덕션 빌드
 <details>
 <summary> 테스트 계획 및 결과 보고서 보기 (클릭)</summary>
 <br />
+  
 ## 1. 개요
 
 본 프로젝트는 Django 기반 백엔드, React 기반 프론트엔드, LangChain/OpenAI를 활용한 RAG 기반 여행 추천 및 질의응답 시스템이다.  
