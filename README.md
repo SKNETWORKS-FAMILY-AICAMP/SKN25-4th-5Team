@@ -426,7 +426,7 @@ npm run build      # 프로덕션 빌드
 ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ---
 # 11. 한 줄 회고
-> <img src="https://i.namu.wiki/i/JzrpOAzg9t3ztUBJrLBJUd0wOM0oSi_UVvKosJ9RR8SVaPMHx2KS9LoEUUJs0VOE56OBFfGw407pWR69rmtvL0nLg6CuOsaRqE-OQI-uKUomx_LR3UL0EM6SLXb2NB8_Wm6WQqiHhsxZblLFNFq2zA.webp"  width="20" style="vertical-align:middle;" />&nbsp;**박성진** : 
+> <img src="https://i.namu.wiki/i/JzrpOAzg9t3ztUBJrLBJUd0wOM0oSi_UVvKosJ9RR8SVaPMHx2KS9LoEUUJs0VOE56OBFfGw407pWR69rmtvL0nLg6CuOsaRqE-OQI-uKUomx_LR3UL0EM6SLXb2NB8_Wm6WQqiHhsxZblLFNFq2zA.webp"  width="20" style="vertical-align:middle;" />&nbsp;**박성진** : "AI 에이전트 설계(3차)부터 React 중심의 서비스 구현(4차)까지 경험하며, AI 기술의 핵심 로직과 이를 사용자에게 전달하는 UI 구현력을 모두 갖춘 풀스택적 시야를 확보하게 되었습니다."
 >
 ><img src="https://i.namu.wiki/i/eakwklJXm97hJ1tSHpE7to5w5nbn0pgqnu3SGyk1GtFohsNoFL8QsXE3Ja4whDDnVKJLrxrwspJTCI_m8rRqXMeXw5efrl6P8cUtmEn1RU__QPflczalcykA7hQdSCTjRzjWgEqsShgeP6eLFDQHXw.webp" width="20" style="vertical-align:middle;" />&nbsp;**이상민** : 
 >
