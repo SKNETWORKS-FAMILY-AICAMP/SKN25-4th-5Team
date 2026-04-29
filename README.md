@@ -385,6 +385,12 @@ npm run build      # 프로덕션 빌드
 <details>
 <summary> 페이지 시연 보기 (클릭)</summary>
 <br />
+
+### 서비스 소개
+<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/3eed99b3-0c05-45bb-8a07-1bc18733227a" />
+
+### 맞춤형 여행 추천
+<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/09f9b610-d823-4391-8575-bb39d4214231" />
   
 ### 여행 챗봇
 <img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/fa1c9893-bbd6-47cb-a24b-3c9b83c3f45e" />
@@ -603,9 +609,18 @@ backend 컨테이너 빌드
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL_16-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 ![pgvector](https://img.shields.io/badge/pgvector-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
+### DevOps / MLOps
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+![LangSmith](https://img.shields.io/badge/LangSmith-000000?style=for-the-badge&logo=langchain&logoColor=white)
+
 ### Infrastructure
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+
+### Collaboration
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 ---
 # 11. 한 줄 회고
 > <img src="https://i.namu.wiki/i/JzrpOAzg9t3ztUBJrLBJUd0wOM0oSi_UVvKosJ9RR8SVaPMHx2KS9LoEUUJs0VOE56OBFfGw407pWR69rmtvL0nLg6CuOsaRqE-OQI-uKUomx_LR3UL0EM6SLXb2NB8_Wm6WQqiHhsxZblLFNFq2zA.webp"  width="20" style="vertical-align:middle;" />&nbsp;**박성진** : "AI 에이전트 설계(3차)부터 React 중심의 서비스 구현(4차)까지 경험하며, AI 기술의 핵심 로직과 이를 사용자에게 전달하는 UI 구현력을 모두 갖춘 풀스택적 시야를 확보하게 되었습니다."
