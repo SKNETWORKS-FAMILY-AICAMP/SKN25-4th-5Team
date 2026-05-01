@@ -364,7 +364,7 @@ npm run build      # 프로덕션 빌드
 </details>
 
 
-# 7. 파이프라인 구조, ERD
+# 7. 파이프라인 구조, ERD, 요구사항 정의서, 화면 설계서
 
 <details>
 <summary> 파이프라인 및 ERD 시각화 자료 보기 (클릭)</summary>
@@ -375,6 +375,12 @@ npm run build      # 프로덕션 빌드
 
 ###  데이터베이스 ERD
 ![ERD](./frontend/src/assets/erd.png)
+
+### 요구사항 정의서
+[요구사항 정의서](./PRD.md)
+
+### 화면 설계서
+<img width="7476" height="4592" alt="Image" src="https://github.com/user-attachments/assets/6327d5b2-3a3c-470f-b676-40bd6f3e8941" />
 
 </details>
 
